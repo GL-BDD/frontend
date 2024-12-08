@@ -1,0 +1,13 @@
+.about {
+  min-height: 100vh;
+  padding-inline: 30px;
+  text-align: center;
+}
+
+.about-information {
+  column-gap: 30px;
+}
+
+.about-information .box h3 {
+  color: var(--main-color-);
+}

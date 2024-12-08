@@ -1,0 +1,44 @@
+.home-page {
+  background: linear-gradient(
+    180deg,
+    rgba(57, 162, 242, 0.1008) 0%,
+    rgba(57, 162, 242, 0)
+  );
+}
+.herro-section {
+  min-height: 100vh;
+}
+
+.description {
+  margin-bottom: 30px;
+  margin: 0 auto;
+}
+
+.description-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.description-text h3 {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.description-text strong {
+  color: #2d93e2;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+@media (min-width: 1336px) {
+  .description {
+    max-width: 70%;
+  }
+  .description-text p {
+    text-align: center;
+  }
+}
