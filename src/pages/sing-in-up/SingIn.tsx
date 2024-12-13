@@ -17,7 +17,7 @@ export default function SingIn() {
             <button className="bleu">Sign in </button>
             <button>Sign in with google</button>
             <p style={{ color: '#241a1aac' }}>
-              don't have an account
+              vous avez pas un compte
               <Link to="/singup">
                 <span className="bleu"> Sign up</span>
               </Link>
