@@ -4,6 +4,7 @@ import './Employee.css'
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone'
 import EmailIcon from '@mui/icons-material/Email'
 import PlaceIcon from '@mui/icons-material/Place'
+// import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
 
 export default function Employee() {
   //   const { param1,parm2,param3 } = useParams();
@@ -25,7 +26,7 @@ export default function Employee() {
     disponibilite: true,
     realisation: {
       realisationName: 'Panne de quelque chose',
-      realisationImage: 'Url vers les images',
+      realisationImage: { image: { url: '', title: '' } },
     },
     certification: '',
     employeeImage: '',
@@ -95,9 +96,22 @@ export default function Employee() {
       </div>
       <div className="employeepage__realisation">
         <h2>Réalisation</h2>
+        {/* <ImageList variant="masonry" cols={3} gap={8}>
+          {employee.realisation.realisationImage.map((item) => (
+            <ImageListItem key={item.img}>
+              <img
+                srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                src={`${item.img}?w=248&fit=crop&auto=format`}
+                alt={item.title}
+                loading="lazy"
+              />
+              <ImageListItemBar position="below" title={item.author} />
+            </ImageListItem>
+          ))}
+        </ImageList> */}
       </div>
       <div className="employeepage__certification">
-        <h2>Cértiification</h2>
+        <h2>Cértification</h2>
       </div>
     </div>
   )

@@ -15,10 +15,10 @@ export default function NavBar() {
         </div>
         <ul>
           <li>
-            <a href="#about">À propos</a>
+            <a href="/#about">À propos</a>
           </li>
           <li>
-            <a href="#artisans">Artisans</a>
+            <a href="/#artisans">Artisans</a>
           </li>
         </ul>
         <ul>

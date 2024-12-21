@@ -1,3 +1,11 @@
+#home {
+  background: linear-gradient(
+    180deg,
+    rgba(57, 162, 242, 0.1008) 0%,
+    rgba(57, 162, 242, 0)
+  );
+}
+
 nav {
   padding: 5px 5%;
   display: flex;

@@ -19,7 +19,8 @@
   margin: 0;
 }
 
-.signin--information form > * {
+.signin--information form input,
+.signin--information form label {
   display: block;
 }
 
@@ -27,7 +28,9 @@
   padding: 5px 0;
 }
 
-.signin--information form input {
+.signin--information form input[type='text'],
+.signin--information form input[type='password'],
+.signin--information form input[type='email'] {
   padding: 7px;
   width: 70%;
   margin-bottom: 20px;
@@ -79,7 +82,9 @@ span.bleu {
   .signin--information form button {
     width: 90%;
   }
-  .signin--information form input {
+  .signin--information form input[type='text'],
+  .signin--information form input[type='password'],
+  .signin--information form input[type='email'] {
     width: 90%;
   }
 }
@@ -93,9 +98,16 @@ span.bleu {
 @media (min-width: 1515px) {
   .signin--information {
     padding: 10px 25px;
-    border: 1px solid #eee;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-right: none;
   }
+}
+
+div.employechoice {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.generalinformation {
+  display: none;
 }

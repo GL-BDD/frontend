@@ -8,7 +8,8 @@ interface LoginFormData {
   password: string
 }
 
-const API_URL = 'https://cors-proxy.fringe.zone/https://backend-yijt.onrender.com/api/auth'
+const API_URL =
+  'https://cors-proxy.fringe.zone/https://backend-yijt.onrender.com/api/auth'
 
 export default function SingIn() {
   const navigate = useNavigate()
@@ -16,16 +17,16 @@ export default function SingIn() {
   const [error, setError] = useState('')
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
-    password: ''
+    password: '',
   })
   const [isLoading, setIsLoading] = useState(false)
   const successMessage = location.state?.message
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }))
   }
 
@@ -39,32 +40,31 @@ export default function SingIn() {
       const response = await axios.post(`${API_URL}/login`, formData, {
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest'
-        }
+          Accept: 'application/json',
+          'X-Requested-With': 'XMLHttpRequest',
+        },
       })
-      
+
       console.log('Login successful:', response.data)
-      
-      
+
       if (response.data.token) {
         localStorage.setItem('token', response.data.token)
       }
-      
-      
+
       navigate('/')
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error('Login error:', err)
-      
-      
-      const errorMessage = err.response?.data?.message || 
+
+      const errorMessage =
+        err.response?.data?.message ||
         'Une erreur est survenue lors de la connexion. Veuillez réessayer.'
-      
+
       setError(errorMessage)
       console.error('Error details:', {
         data: err.response?.data,
         status: err.response?.status,
-        message: errorMessage
+        message: errorMessage,
       })
     } finally {
       setIsLoading(false)
@@ -98,23 +98,19 @@ export default function SingIn() {
               onChange={handleChange}
               required
             />
-            <button 
-              className="bleu" 
-              type="submit"
-              disabled={isLoading}
-            >
+            <button className="bleu" type="submit" disabled={isLoading}>
               {isLoading ? 'Connexion...' : 'Sign in'}
             </button>
             <button type="button">Sign in with google</button>
             <p style={{ color: '#241a1aac' }}>
               vous avez pas un compte
-              <Link to="/signup">
+              <Link to="/singup">
                 <span className="bleu"> Sign up</span>
               </Link>
             </p>
           </form>
         </div>
-        
+
         <div className="signin--image">
           <img src="/images/loginimagedesktp.jpg" alt="" />
         </div>
