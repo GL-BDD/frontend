@@ -9,7 +9,8 @@ interface LoginFormData {
   role: string
 }
 
-const API_URL = 'https://cors-proxy.fringe.zone/https://backend-yijt.onrender.com/api/auth'
+const API_URL =
+  'https://cors-proxy.fringe.zone/https://backend-yijt.onrender.com/api/auth'
 
 export default function SingIn() {
   const navigate = useNavigate()
@@ -18,7 +19,7 @@ export default function SingIn() {
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: '',
-    role: 'client'
+    role: 'client',
   })
   const [isLoading, setIsLoading] = useState(false)
   const successMessage = location.state?.message
@@ -41,19 +42,19 @@ export default function SingIn() {
       const payload = {
         email: formData.email.trim().toLowerCase(),
         password: formData.password,
-        role: formData.role === 'artisan' ? 'artisan' : 'client'
+        role: formData.role === 'artisan' ? 'artisan' : 'client',
       }
 
       console.log('Sending login data:', payload)
       const response = await axios.post(`${API_URL}/login`, payload, {
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       })
 
       console.log('Login response:', {
         status: response.status,
-        data: response.data
+        data: response.data,
       })
 
       if (response.data?.token) {
@@ -67,20 +68,21 @@ export default function SingIn() {
       navigate(formData.role === 'artisan' ? '/artisan-dashboard' : '/')
     } catch (err: any) {
       console.error('Login error:', err)
-      
+
       // Log detailed error information
       if (err.response) {
         console.error('Error Response:', {
           data: err.response.data,
           status: err.response.status,
-          headers: err.response.headers
+          headers: err.response.headers,
         })
       }
 
       let errorMessage = 'Login failed. '
-      
+
       if (err.response?.status === 401) {
-        errorMessage = 'Invalid credentials. Please check your email and password.'
+        errorMessage =
+          'Invalid credentials. Please check your email and password.'
       } else if (err.response?.data?.message) {
         errorMessage += err.response.data.message
       } else if (err.response?.data?.error) {

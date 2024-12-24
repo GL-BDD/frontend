@@ -1,96 +1,94 @@
-.container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 90vh;
-  background-color: #f5f5f5;
-  padding: 20px;
-}
-
 .signin,
 .signup {
   display: flex;
+  justify-content: space-between;
   background: white;
   border-radius: 20px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  width: 100%;
-  max-width: 1200px;
-  min-height: 600px;
+  max-width: 1000px;
+  margin: 0 auto;
 }
 
-.signin--information,
-.signup--information {
-  flex: 1;
-  padding: 40px;
+.signup {
+  margin-top: 10px;
+}
+
+.signin {
+  transform: translateY(20%);
+}
+
+.signin .signin--information,
+.signup .signup--information {
+  padding: 10px 30px 30px 30px;
   display: flex;
   flex-direction: column;
+  width: 45%;
+  max-width: 45%;
 }
 
-.signin--image,
-.signup--image {
-  flex: 1;
-  background: #f8f9fa;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+.signin .signin--image,
+.signup .signup--image {
+  max-width: 50%;
 }
 
-.signin--image img,
-.signup--image img {
+.signin .signin--image img,
+.signup .signup--image img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 
-h2 {
-  font-size: 2.5rem;
+.signin h2,
+.signup h2 {
+  font-size: 20px;
   color: #333;
-  margin-bottom: 1rem;
+  margin-bottom: 10px;
 }
 
-form {
+.signin form,
+.signup form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  flex: 1;
+  gap: 5px;
 }
 
-label {
+.signin form label,
+.signup form label {
   font-weight: 500;
   color: #666;
-  margin-bottom: 0.25rem;
+  margin-bottom: 10px;
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="tel"] {
-  padding: 12px;
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='tel'] {
+  padding: 7px;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1rem;
   transition: border-color 0.3s;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus,
-input[type="tel"]:focus {
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus,
+input[type='tel']:focus {
   border-color: #007bff;
   outline: none;
   box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
 }
 
-.role-checkbox {
+.signin .role-checkbox,
+.signup .role-checkbox {
   display: flex;
   align-items: center;
   gap: 0.5rem;
   margin: 1rem 0;
 }
 
-.role-checkbox label {
+.signin .role-checkbox label,
+.signup .role-checkbox label {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -98,13 +96,15 @@ input[type="tel"]:focus {
   user-select: none;
 }
 
-.role-checkbox input[type="checkbox"] {
+.signin .role-checkbox input[type='checkbox'],
+.signup .role-checkbox input[type='checkbox'] {
   width: 18px;
   height: 18px;
   cursor: pointer;
 }
 
-button {
+.signin button,
+.signup button {
   padding: 12px;
   border: none;
   border-radius: 8px;
@@ -114,65 +114,79 @@ button {
   transition: all 0.3s;
 }
 
-button.bleu {
+.signin button.bleu,
+.signup button.bleu {
   background-color: #007bff;
   color: white;
 }
 
-button.bleu:hover {
+.signin button.bleu:hover,
+.signup button.bleu:hover {
   background-color: #0056b3;
 }
 
-button:disabled {
+.singin button:disabled,
+.singup button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
 }
 
-p {
+.singin p,
+.singup p {
   text-align: center;
   margin-top: 1rem;
 }
 
-p a {
+.singin p a,
+.singup p a {
   color: #007bff;
   text-decoration: none;
   font-weight: 500;
 }
 
-p a:hover {
+.singin p a:hover,
+.singup p a:hover {
   text-decoration: underline;
 }
 
 /* Error and success messages */
-p[style*="color: red"],
-p[style*="color: green"] {
+.singin p[style*='color: red'],
+.singin p[style*='color: green'],
+.singup p[style*='color: red'],
+.singup p[style*='color: green'] {
   padding: 10px;
   border-radius: 8px;
   margin: 1rem 0;
 }
 
-p[style*="color: red"] {
+.singin p[style*='color: red'],
+.singup p[style*='color: red'] {
   background-color: rgba(255, 0, 0, 0.1);
 }
 
-p[style*="color: green"] {
+.singin p[style*='color: green'],
+.singup p[style*='color: green'] {
   background-color: rgba(0, 255, 0, 0.1);
 }
 
 /* Responsive design */
 @media (max-width: 768px) {
-  .signin,
+  .signin .signin--information,
+  .signup .signup--information {
+    width: 80%;
+    max-width: 80%;
+  }
+  .signin {
+    transform: translateY(12%);
+    justify-content: center;
+    width: 95%;
+  }
   .signup {
-    flex-direction: column;
+    justify-content: center;
+    width: 95%;
   }
-
-  .signin--image,
-  .signup--image {
+  .signin .signin--image img,
+  .signup .signup--image img {
     display: none;
-  }
-
-  .signin--information,
-  .signup--information {
-    padding: 20px;
   }
 }

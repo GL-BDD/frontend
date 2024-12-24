@@ -12,7 +12,8 @@ interface RegisterFormData {
   role: string
 }
 
-const API_URL = 'https://cors-proxy.fringe.zone/https://backend-yijt.onrender.com/api/auth'
+const API_URL =
+  'https://cors-proxy.fringe.zone/https://backend-yijt.onrender.com/api/auth'
 
 export default function SingUp() {
   const navigate = useNavigate()
@@ -23,7 +24,7 @@ export default function SingUp() {
     password: '',
     confirmPassword: '',
     phoneNumber: '',
-    role: 'client'
+    role: 'client',
   })
   const [isLoading, setIsLoading] = useState(false)
 
@@ -60,21 +61,21 @@ export default function SingUp() {
         email: registerData.email.trim().toLowerCase(),
         password: registerData.password,
         role: registerData.role.toLowerCase(), // Ensure role is lowercase
-        phoneNumber: registerData.phoneNumber.replace(/\s+/g, '')
+        phoneNumber: registerData.phoneNumber.replace(/\s+/g, ''),
       }
 
       console.log('Sending registration data:', payload)
 
       const response = await axios.post(`${API_URL}/register`, payload, {
         headers: {
-          'Content-Type': 'application/json'
-        }
+          'Content-Type': 'application/json',
+        },
       })
 
       console.log('Registration response:', {
         status: response.status,
         data: response.data,
-        headers: response.headers
+        headers: response.headers,
       })
 
       navigate('/singin', {
@@ -84,7 +85,7 @@ export default function SingUp() {
       })
     } catch (err: any) {
       console.error('Registration error:', err)
-      
+
       // Log detailed error information
       if (err.response) {
         console.error('Error Response:', {
@@ -93,12 +94,12 @@ export default function SingUp() {
           headers: err.response.headers,
           message: err.response.data?.message,
           error: err.response.data?.error,
-          details: err.response.data?.details
+          details: err.response.data?.details,
         })
       }
 
       let errorMessage = ''
-      
+
       if (err.response?.status === 500) {
         errorMessage = 'Server error. Please try again later.'
       } else if (err.response?.status === 400) {
@@ -109,7 +110,8 @@ export default function SingUp() {
         } else if (err.response.data?.details) {
           errorMessage = err.response.data.details
         } else {
-          errorMessage = 'Invalid registration data. Please check your information.'
+          errorMessage =
+            'Invalid registration data. Please check your information.'
         }
       } else {
         errorMessage = 'Registration failed. Please try again.'
