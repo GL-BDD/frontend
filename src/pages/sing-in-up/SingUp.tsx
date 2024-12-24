@@ -1,18 +1,18 @@
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import './signinup.css'
-import Employee from '../../components/employe/Employee'
 
 interface RegisterFormData {
   username: string
   email: string
   password: string
   confirmPassword: string
+  phoneNumber: string
+  role: string
 }
 
-const API_URL =
-  'https://cors-proxy.fringe.zone/https://backend-yijt.onrender.com/api/auth'
+const API_URL = 'https://cors-proxy.fringe.zone/https://backend-yijt.onrender.com/api/auth'
 
 export default function SingUp() {
   const navigate = useNavigate()
@@ -22,24 +22,16 @@ export default function SingUp() {
     email: '',
     password: '',
     confirmPassword: '',
+    phoneNumber: '',
+    role: 'client'
   })
   const [isLoading, setIsLoading] = useState(false)
-  const [asEmploye, setAsEmploye] = useState(false)
-  const [next, setNext] = useState(false)
-
-  function handleSetAsEmploye() {
-    setAsEmploye(!asEmploye)
-  }
-
-  function handleSetNext() {
-    setNext(true)
-  }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
+    const { name, value, type, checked } = e.target
     setFormData((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: type === 'checkbox' ? (checked ? 'artisan' : 'client') : value,
     }))
   }
 
@@ -49,245 +41,184 @@ export default function SingUp() {
     setIsLoading(true)
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Les mots de passe ne correspondent pas.')
+      setError('Passwords do not match.')
+      setIsLoading(false)
+      return
+    }
+
+    if (!validateForm()) {
       setIsLoading(false)
       return
     }
 
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { confirmPassword, ...registerData } = formData
 
-      const apiData = {
-        ...registerData,
-        role: 'user',
+      // Format the data to match API expectations
+      const payload = {
+        username: registerData.username.trim(),
+        email: registerData.email.trim().toLowerCase(),
+        password: registerData.password,
+        role: registerData.role.toLowerCase(), // Ensure role is lowercase
+        phoneNumber: registerData.phoneNumber.replace(/\s+/g, '')
       }
 
-      console.log('Sending registration data:', apiData)
-      const response = await axios.post(`${API_URL}/register`, apiData, {
+      console.log('Sending registration data:', payload)
+
+      const response = await axios.post(`${API_URL}/register`, payload, {
         headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
-        },
+          'Content-Type': 'application/json'
+        }
       })
 
-      console.log('Registration successful:', response.data)
+      console.log('Registration response:', {
+        status: response.status,
+        data: response.data,
+        headers: response.headers
+      })
 
       navigate('/singin', {
         state: {
-          message:
-            'Inscription réussie ! Vous pouvez maintenant vous connecter.',
+          message: 'Registration successful! You can now login.',
         },
       })
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       console.error('Registration error:', err)
+      
+      // Log detailed error information
+      if (err.response) {
+        console.error('Error Response:', {
+          data: err.response.data,
+          status: err.response.status,
+          headers: err.response.headers,
+          message: err.response.data?.message,
+          error: err.response.data?.error,
+          details: err.response.data?.details
+        })
+      }
 
-      const errorMessage =
-        err.response?.data?.message ||
-        "Une erreur est survenue lors de l'inscription. Veuillez réessayer."
+      let errorMessage = ''
+      
+      if (err.response?.status === 500) {
+        errorMessage = 'Server error. Please try again later.'
+      } else if (err.response?.status === 400) {
+        if (err.response.data?.message) {
+          errorMessage = err.response.data.message
+        } else if (err.response.data?.error) {
+          errorMessage = err.response.data.error
+        } else if (err.response.data?.details) {
+          errorMessage = err.response.data.details
+        } else {
+          errorMessage = 'Invalid registration data. Please check your information.'
+        }
+      } else {
+        errorMessage = 'Registration failed. Please try again.'
+      }
 
       setError(errorMessage)
-      console.error('Error details:', {
-        data: err.response?.data,
-        status: err.response?.status,
-        message: errorMessage,
-      })
     } finally {
       setIsLoading(false)
     }
   }
 
+  // Add basic validation before form submission
+  const validateForm = () => {
+    if (formData.password.length < 6) {
+      setError('Password must be at least 6 characters long')
+      return false
+    }
+    if (!formData.email.includes('@')) {
+      setError('Please enter a valid email address')
+      return false
+    }
+    if (formData.phoneNumber.length < 10) {
+      setError('Please enter a valid phone number')
+      return false
+    }
+    return true
+  }
+
   return (
     <div className="container">
-      <div className="signin">
-        <div className="signin--information">
-          <h2>Créer un compte</h2>
-          <p style={{ color: '#241a1aac' }}>
-            {asEmploye
-              ? "entrer d'autres informations"
-              : 'entrer vos informations'}
-          </p>
+      <div className="signup">
+        <div className="signup--information">
+          <h2>Create Account</h2>
           {error && <p style={{ color: 'red' }}>{error}</p>}
           <form onSubmit={handleSubmit}>
-            <div className={`${asEmploye ? 'generalinformation' : ''}`}>
-              {/* entrer les informations generale */}
-              <GeneralInformation
-                formData={formData}
-                handleChange={handleChange}
-              />
-              {/* inscription pour employer */}
-            </div>
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
 
-            {next && asEmploye ? (
-              <AsEmploye formData={formData} handleChange={handleChange} />
-            ) : (
-              ''
-            )}
+            <label htmlFor="email">Email address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
 
-            {/* permettre au visteur de choisir de s'inscrire comme employer  */}
-            {asEmploye ? (
-              <></>
-            ) : (
-              <div className="employechoice">
+            <label htmlFor="phoneNumber">Phone Number</label>
+            <input
+              type="tel"
+              id="phoneNumber"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              required
+            />
+
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+            />
+
+            <div className="role-checkbox">
+              <label>
                 <input
                   type="checkbox"
-                  name=""
-                  id=""
-                  onClick={() => {
-                    handleSetAsEmploye()
-                  }}
+                  name="role"
+                  checked={formData.role === 'artisan'}
+                  onChange={handleChange}
                 />
-                <label htmlFor="">Iscrire comme employer</label>
-              </div>
-            )}
-            {/*fin de choix  */}
-            {/* si le choix est "employer" afficher le boutton suivant  */}
-            {asEmploye ? (
-              <>
-                {next ? (
-                  <button className="bleu" type="submit" disabled={isLoading}>
-                    {isLoading ? 'Inscription...' : 'Sign up'}
-                  </button>
-                ) : (
-                  // cliqouns ce boutton afficher un autre forme d'informations
-                  <button
-                    className="bleu"
-                    type="submit"
-                    disabled={isLoading}
-                    onClick={() => handleSetNext()}
-                  >
-                    Suivant
-                  </button>
-                )}
-                <button
-                  type="button"
-                  onClick={() => {
-                    setAsEmploye(!asEmploye), setNext(false)
-                  }}
-                >
-                  Annuler
-                </button>
-              </>
-            ) : (
-              <>
-                <button className="bleu" type="submit" disabled={isLoading}>
-                  {isLoading ? 'Inscription...' : 'Sign up'}
-                </button>
-                <button type="button">Sign up with google</button>
-              </>
-            )}
-            {/* button vous aver deja un compte  */}
-            <p style={{ color: '#241a1aac' }}>
-              Vous avez déjà un compte?
-              <Link to="/singin">
-                <span className="bleu"> Sign in</span>
-              </Link>
-            </p>
-          </form>
-        </div>
+                Register as Artisan
+              </label>
+            </div>
 
-        <div className="signin--image">
-          <img src="/images/loginimagedesktp.jpg" alt="" />
+            <button className="bleu" type="submit" disabled={isLoading}>
+              {isLoading ? 'Creating Account...' : 'Sign Up'}
+            </button>
+          </form>
+          <p>
+            Already have an account? <a href="/singin">Sign In</a>
+          </p>
+        </div>
+        <div className="signup--image">
+          <img src="/images/loginimagedesktp.jpg" alt="signup illustration" />
         </div>
       </div>
     </div>
-  )
-}
-
-function GeneralInformation({ formData, handleChange }) {
-  return (
-    <>
-      <label htmlFor="username">Nom d'utilisateur</label>
-      <input
-        type="text"
-        id="username"
-        name="username"
-        value={formData.username}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="email">Email address</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="password">Mot de passe</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        value={formData.password}
-        onChange={handleChange}
-        required
-        minLength={6}
-      />
-
-      <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
-      <input
-        type="password"
-        id="confirmPassword"
-        name="confirmPassword"
-        value={formData.confirmPassword}
-        onChange={handleChange}
-        required
-        minLength={6}
-      />
-    </>
-  )
-}
-
-function AsEmploye({ formData, handleChange }) {
-  return (
-    <>
-      <label htmlFor="username">Nom de profession</label>
-      <input
-        type="text"
-        id="username"
-        name="username"
-        value={formData.username}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="email">Adresse</label>
-      <input
-        type="email"
-        id="email"
-        name="email"
-        value={formData.email}
-        onChange={handleChange}
-        required
-      />
-
-      <label htmlFor="password">Lieu de travaille</label>
-      <input
-        type="password"
-        id="password"
-        name="password"
-        value={formData.password}
-        onChange={handleChange}
-        required
-        minLength={6}
-      />
-
-      <label htmlFor="confirmPassword">Numéro de téléphone</label>
-      <input
-        type="password"
-        id="confirmPassword"
-        name="confirmPassword"
-        value={formData.confirmPassword}
-        onChange={handleChange}
-        required
-        minLength={6}
-      />
-    </>
   )
 }
