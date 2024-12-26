@@ -1,0 +1,75 @@
+import React, { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import './employeespage.css'
+export default function EmployeesPage() {
+  const { profession } = useParams()
+  const [employees, setEmployees] = useState()
+  const [loading, setLoading] = useState(false)
+
+  async function fetchEmployeesByProfession() {
+    try {
+      setLoading(true)
+      const res = await fetch(
+        `https://backend-yijt.onrender.com/api/artisans?specialization=${profession}`,
+      )
+
+      console.log('Response Status:', res.status)
+      console.log('Response Headers:', res.headers)
+
+      const data = await res.json()
+      setLoading(false)
+      console.log('data:', data)
+      setEmployees(data)
+    } catch (e) {
+      setLoading(false)
+      console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    fetchEmployeesByProfession()
+  }, [profession])
+
+  console.log(employees)
+
+  return (
+    <div className="employeespage container grid-container">
+      {loading ? (
+        <h1>Data is loading ... ! please wait</h1>
+      ) : (
+        <>
+          {employees.map((employee) => (
+            <Link to={`/profession/${profession}/${employee.id}`}>
+              <Employee
+                key={employee.id}
+                nom={employee.username}
+                phoneNumber={employee.phonenumber}
+                imageURL=""
+              />
+            </Link>
+          ))}
+        </>
+      )}
+    </div>
+  )
+}
+
+//employee component
+
+interface EmployeeProps {
+  nom: string
+  phoneNumber: string
+  imageURL: string
+}
+
+const Employee: React.FC<EmployeeProps> = ({ nom, phoneNumber, imageURL }) => {
+  return (
+    <div className="employee">
+      <div className="image">
+        {/* <img src={imageURL} alt="employee image" /> */}
+      </div>
+      <h2>{nom}</h2>
+      <p>{phoneNumber}</p>
+    </div>
+  )
+}
