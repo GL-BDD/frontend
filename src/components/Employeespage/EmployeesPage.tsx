@@ -3,26 +3,20 @@ import { Link, useParams } from 'react-router-dom'
 import './employeespage.css'
 export default function EmployeesPage() {
   const { profession } = useParams()
-  const [employees, setEmployees] = useState()
+  const [employees, setEmployees] = useState([])
   const [loading, setLoading] = useState(false)
 
   async function fetchEmployeesByProfession() {
     try {
       setLoading(true)
       const res = await fetch(
-        `https://backend-yijt.onrender.com/api/artisans?specialization=${profession}`,
+        `https://backend-1-9izo.onrender.com/api/artisans?specialization=${profession}`,
       )
-
-      console.log('Response Status:', res.status)
-      console.log('Response Headers:', res.headers)
-
       const data = await res.json()
       setLoading(false)
-      console.log('data:', data)
       setEmployees(data)
     } catch (e) {
       setLoading(false)
-      console.log(e)
     }
   }
 
