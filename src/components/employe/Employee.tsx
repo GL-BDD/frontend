@@ -7,6 +7,7 @@ import PlaceIcon from '@mui/icons-material/Place'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 // import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
+const BASE_URL = import.meta.env.VITE_API_URL
 
 export default function Employee() {
   const { idUtilisateur } = useParams()
@@ -17,7 +18,7 @@ export default function Employee() {
     try {
       setLoading(true)
       const res = await fetch(
-        `https://backend-1-9izo.onrender.com/api/artisans/${idUtilisateur}`,
+        `${BASE_URL}/api/artisans/${idUtilisateur}`,
       )
       const data = await res.json()
       setLoading(false)

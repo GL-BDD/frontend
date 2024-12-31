@@ -12,8 +12,7 @@ interface RegisterFormData {
   role: string
 }
 
-const API_URL =
-  'https://cors-proxy.fringe.zone/https://backend-yijt.onrender.com/api/auth'
+const BASE_URL = import.meta.env.VITE_API_URL
 
 export default function SingUp() {
   const navigate = useNavigate()
@@ -66,7 +65,7 @@ export default function SingUp() {
 
       console.log('Sending registration data:', payload)
 
-      const response = await axios.post(`${API_URL}/register`, payload, {
+      const response = await axios.post(`${BASE_URL}/register`, payload, {
         headers: {
           'Content-Type': 'application/json',
         },

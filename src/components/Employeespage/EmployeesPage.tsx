@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import './employeespage.css'
+const BASE_URL = import.meta.env.VITE_API_URL
 export default function EmployeesPage() {
   const { profession } = useParams()
   const [employees, setEmployees] = useState([])
@@ -10,7 +11,7 @@ export default function EmployeesPage() {
     try {
       setLoading(true)
       const res = await fetch(
-        `https://backend-1-9izo.onrender.com/api/artisans?specialization=${profession}`,
+        `${BASE_URL}/api/artisans?specialization=${profession}`,
       )
       const data = await res.json()
       setLoading(false)

@@ -2,7 +2,7 @@
 import axios from 'axios'
 
 // Backend base URL
-const BASE_URL = 'https://backend-yijt.onrender.com/api'
+const BASE_URL = import.meta.env.VITE_API_URL
 
 
 const axiosInstance = axios.create({

@@ -9,8 +9,7 @@ interface LoginFormData {
   role: string
 }
 
-const API_URL =
-  'https://cors-proxy.fringe.zone/https://backend-yijt.onrender.com/api/auth'
+const BASE_URL = import.meta.env.VITE_API_URL
 
 export default function SingIn() {
   const navigate = useNavigate()
@@ -46,7 +45,7 @@ export default function SingIn() {
       }
 
       console.log('Sending login data:', payload)
-      const response = await axios.post(`${API_URL}/login`, payload, {
+      const response = await axios.post(`${BASE_URL}/login`, payload, {
         headers: {
           'Content-Type': 'application/json',
         },
