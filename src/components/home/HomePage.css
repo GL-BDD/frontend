@@ -1,0 +1,76 @@
+.home-page {
+  background: linear-gradient(
+    180deg,
+    rgba(57, 162, 242, 0.1008) 0%,
+    rgba(57, 162, 242, 0)
+  );
+}
+.herro-section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(25%);
+  gap: 40px;
+}
+
+.herro-section .searchbar {
+  display: flex;
+  gap: 30px;
+}
+
+.herro-section .searchbar select {
+  padding: 10px 40px;
+  border-radius: 5px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  cursor: pointer;
+}
+
+.herro-section .searchbar .searchbarbutton {
+  padding: 10px 20px;
+  background-color: #2d93e2;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.herro-section h2 {
+  margin: 0;
+  height: fit-content;
+}
+
+.description {
+  margin-bottom: 30px;
+  margin: 0 auto;
+}
+
+.description-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.description-text h3 {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.description-text strong {
+  color: #2d93e2;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+@media (min-width: 1336px) {
+  .description {
+    max-width: 70%;
+  }
+  .description-text p {
+    text-align: center;
+  }
+}
