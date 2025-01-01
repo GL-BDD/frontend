@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 interface User {
   email: string;
@@ -19,7 +20,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const API_URL = 'https://cors-proxy.fringe.zone/https://backend-yijt.onrender.com/api/auth';
+const API_URL = `${BASE_URL}/api/auth`;
 
 // Function to decode JWT token
 const decodeToken = (token: string): any => {

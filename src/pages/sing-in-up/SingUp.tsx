@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import './signinup.css'
 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 interface RegisterFormData {
   username: string
   email: string
@@ -13,7 +15,7 @@ interface RegisterFormData {
 }
 
 const API_URL =
-  'https://cors-proxy.fringe.zone/https://backend-yijt.onrender.com/api/auth'
+  `${BASE_URL}/api/auth`
 
 export default function SingUp() {
   const navigate = useNavigate()

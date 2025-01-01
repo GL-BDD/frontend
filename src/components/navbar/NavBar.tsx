@@ -10,9 +10,11 @@ export default function NavBar() {
   return (
     <div id="home">
       <nav>
+        <a href="/">
         <div className="logo">
           <h1>LOGO</h1>
         </div>
+        </a>
         <ul>
           <li>
             <a href="/#about">À propos</a>

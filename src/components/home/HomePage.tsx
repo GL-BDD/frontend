@@ -9,6 +9,7 @@ import { useAuth } from '../../context/AuthContext'
 
 export default function HomePage() {
   const { user } = useAuth();
+  const navigate = useNavigate()
   
   return (
     <div className="home-page">
@@ -22,6 +23,9 @@ export default function HomePage() {
         )}
         <h2>Veuillez choisir une profession</h2>
         <SearchBar />
+        <button className="project-proposal-button" onClick={()=>{navigate('/project-proposal')}}>
+        ajouter un projet
+      </button>
       </div>
       <About />
       <Artisans />
