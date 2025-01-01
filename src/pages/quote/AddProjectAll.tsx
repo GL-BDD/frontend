@@ -10,11 +10,9 @@ const specializations = ['électricien', 'plombier', 'peintre'];
 const AddProject: React.FC = () => {
   const { token,isAuthenticated } = useAuth();
 
-  console.log(BASE_URL)
   const [formData, setFormData] = useState({
     description: '',
     specialization: specializations[0], // Default to the first specialization
-    artisan: '',
     images: [] as File[],
   });
   const [error, setError] = useState('');

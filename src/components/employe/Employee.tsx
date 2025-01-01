@@ -6,6 +6,8 @@ import EmailIcon from '@mui/icons-material/Email'
 import PlaceIcon from '@mui/icons-material/Place'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
+
 // import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
 
 const BASE_URL = import.meta.env.VITE_API_URL;
@@ -14,6 +16,8 @@ export default function Employee() {
   const { idUtilisateur } = useParams()
   const [employee, setEmployee] = useState({})
   const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+  
 
   async function fetchEmployeeByID() {
     try {
@@ -35,6 +39,11 @@ export default function Employee() {
 
   const imageEmployee =
     'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg'
+
+  const handleButtonClick = ()=>{
+    console.log('button clicked')
+    navigate(`/project-proposal/${idUtilisateur}`)
+  }
 
   return (
     <div className="container employepage">
@@ -75,7 +84,7 @@ export default function Employee() {
               </div>
             </div>
             <div className="employeepage--chat">
-              <p className="chat">Demander un Devis</p>
+              <button onClick={handleButtonClick} className="chat">Demander un Devis</button>
               <p className="chat">Contacter</p>
             </div>
           </div>

@@ -8,7 +8,8 @@ import NavBar from './components/navbar/NavBar'
 import EmployeesPage from './components/Employeespage/EmployeesPage'
 import { ProfessionProvider } from './context/ContextProfession'
 import { AuthProvider } from './context/AuthContext'
-import AddProject from './pages/quote/AddProject'
+import AddProjectAll from './pages/quote/AddProjectAll'
+import AddProjectArtisan from './pages/quote/AddProjectArtisan'
 
 const App: React.FC = () => {
   return (
@@ -25,7 +26,11 @@ const App: React.FC = () => {
             />
             <Route path="/singin" element={<SingIn />} />
             <Route path="/singup" element={<SingUp />} />
-            <Route path="/project-proposal" element={<AddProject />} />
+            <Route path="/project-proposal" element={<AddProjectAll />} />
+            <Route
+              path="/project-proposal/:artisanId"
+              element={<AddProjectArtisan />}
+            />
           </Routes>
         </BrowserRouter>
       </ProfessionProvider>
