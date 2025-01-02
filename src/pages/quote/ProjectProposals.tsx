@@ -43,7 +43,7 @@ export default function projectProposals() {
     
       useEffect(() => {
         fetchProposals()
-      }, [])
+      }, [token])
       if(user && user.role!=='artisan'){
         return (
             <>unauthorized</>
