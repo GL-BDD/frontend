@@ -3,9 +3,11 @@ import axios from 'axios';
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 interface User {
+  id:string,
   email: string;
   role: string;
-  username?: string;
+  username: string;
+  specialization?: string;
 }
 
 interface AuthContextType {
@@ -50,9 +52,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (decodedToken) {
           setToken(storedToken);
           setUser({
-            email: decodedToken.username, // Using username as email since that's what we have
+            id: decodedToken.id,
+            email: decodedToken.email, // Using username as email since that's what we have
             role: decodedToken.role,
-            username: decodedToken.username
+            username: decodedToken.username,
+            specialization: decodedToken.specialization
           });
         } else {
           // Invalid token, clear it
@@ -103,6 +107,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       // Create user object from decoded token
       const userData: User = {
+        id: decodedToken.id,
         email: email, // Use the email from login
         role: decodedToken.role,
         username: decodedToken.username
