@@ -10,13 +10,13 @@ import { ProfessionProvider } from './context/ContextProfession'
 import { AuthProvider } from './context/AuthContext'
 import AddProjectAll from './pages/quote/AddProjectAll'
 import AddProjectArtisan from './pages/quote/AddProjectArtisan'
-import ProjectProposals from './pages/quote/projectProposals'
+import ProjectProposals from './pages/quote/ProjectProposals'
 
 const App: React.FC = () => {
   return (
+        <BrowserRouter>
     <AuthProvider>
       <ProfessionProvider>
-        <BrowserRouter>
           <NavBar />
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -34,9 +34,9 @@ const App: React.FC = () => {
             />
             <Route path="/project-proposals" element={<ProjectProposals />} />
           </Routes>
-        </BrowserRouter>
       </ProfessionProvider>
     </AuthProvider>
+        </BrowserRouter>
   )
 }
 

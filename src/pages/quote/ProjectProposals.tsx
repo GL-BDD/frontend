@@ -1,9 +1,10 @@
-import React, { useEffect,useState } from 'react'
+import  { useEffect,useState } from 'react'
 import {useAuth} from '../../context/AuthContext'
 import axios from 'axios'
 import './quote.css'
 
 const BASE_URL = import.meta.env.VITE_API_URL;
+
 
 export default function projectProposals() {
     const {user,token}=useAuth()
@@ -81,6 +82,7 @@ export default function projectProposals() {
             )}
           </>
         )}
+        
       </div>
     )
 }
