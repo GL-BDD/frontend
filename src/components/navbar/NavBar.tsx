@@ -21,12 +21,9 @@ export default function NavBar() {
         </div>
         </a>
         <ul>
-          <li>
-            <a href="/#about">À propos</a>
-          </li>
-          <li>
-            <a href="/#artisans">Artisans</a>
-          </li>
+          {
+          user?.role === 'artisan' && (<><li><Link to="project-proposals">proposals</Link></li></>)
+          }
         </ul>
         <ul>
           {!user ? (<><li>

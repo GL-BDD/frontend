@@ -10,3 +10,8 @@
   border: 1px solid rgb(165, 161, 161);
   border-radius: 10px;
 }
+
+.proposal-image {
+  margin: 10px;
+  width: 300px;
+}

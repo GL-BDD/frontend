@@ -62,8 +62,9 @@ export default function projectProposals() {
                   Proposals for you
                 </h3>
                 {proposalsById.map((proposal) => (
-                    <div className='proposal'>
+                  <div className='proposal'>
                   <p>{proposal?.description}</p>
+                  
                     </div>
                 ))}
                 </div>
@@ -76,6 +77,8 @@ export default function projectProposals() {
                 {proposalsBySpecialization.map((proposal) => (
                     <div className='proposal'>
                   <p>{proposal?.description}</p>
+                  {!proposal?.attachment ?  <p>no attachments</p>:<img className='proposal-image' src={proposal.attachment} />}
+
                     </div>
                 ))}
                 </div>
