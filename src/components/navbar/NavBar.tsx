@@ -1,9 +1,14 @@
 import { useState } from 'react'
 import './NavBar.css'
 import { Link } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
+
 
 export default function NavBar() {
   const [isActive, setIsActive] = useState(false)
+  const { user,logout } = useAuth();
+  const navigate = useNavigate()
   const toggleNav = () => {
     setIsActive(!isActive)
   }
@@ -24,12 +29,14 @@ export default function NavBar() {
           </li>
         </ul>
         <ul>
-          <li>
+          {!user ? (<><li>
             <Link to="singin">Login</Link>
           </li>
           <li>
             <Link to="singup">Sign-up</Link>
-          </li>
+          </li></>): <><button className='logout' onClick={()=>{navigate(`/artisan-profile/${user?.id}`)}}>{user?.username}</button> <li><button className='logout' onClick={() => {
+            logout();
+          }}>Logout</button></li></>}
           <li>
             <a href="#">Francais</a>
           </li>

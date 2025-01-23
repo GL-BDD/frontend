@@ -58,9 +58,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       if (decodedUser && decodedUser.exp * 1000 > Date.now()) {
         setUser(decodedUser);
         setToken(storedToken);
+        
       } else {
         localStorage.removeItem('token');
-        navigate('/login');
+        navigate('/signin');
       }
     }
   }, [navigate]);
@@ -88,7 +89,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('token');
     setUser(null);
     setToken(null);
-    navigate('/login');
+    navigate('/');
   };
 
   const isAuthenticated = !!user;

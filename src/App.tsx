@@ -11,6 +11,7 @@ import { AuthProvider } from './context/AuthContext'
 import AddProjectAll from './pages/quote/AddProjectAll'
 import AddProjectArtisan from './pages/quote/AddProjectArtisan'
 import ProjectProposals from './pages/quote/ProjectProposals'
+import ArtisanProfile from './pages/artisan/ArtisanProfile'
 
 const App: React.FC = () => {
   return (

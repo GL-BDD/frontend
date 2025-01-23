@@ -122,6 +122,15 @@ nav ul li a,
 .menubar ul li a:hover {
   background-color: #f5f5f5;
 }
+
+.logout {
+  background: #1f1f1f;
+  color: #fff;
+  padding: 5px 20px;
+}
+.logout:hover {
+  background-color: #59abea86;
+}
 @media screen and (max-width: 790px) {
   nav {
     justify-content: space-between;

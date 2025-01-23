@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import './signinup.css'
@@ -12,13 +12,19 @@ interface LoginFormData {
 export default function SingIn() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { login, error: authError, isLoading } = useAuth()
+  const { login, error: authError, isLoading,user } = useAuth()
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: '',
     role: 'client',
   })
   const successMessage = location.state?.message
+
+  useEffect(()=>{
+    if(user){
+    navigate(formData.role === 'artisan' ? '/artisan-dashboard' : '/')
+    }
+  },[user])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target
@@ -27,6 +33,7 @@ export default function SingIn() {
       [name]: type === 'checkbox' ? (checked ? 'artisan' : 'client') : value,
     }))
   }
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -37,11 +44,11 @@ export default function SingIn() {
         role: formData.role,
       });
 
-      await login(formData.email, formData.password, formData.role)
+    await login(formData.email, formData.password, formData.role)
       
       console.log('Login successful, redirecting...');
       // Redirect based on role
-      navigate(formData.role === 'artisan' ? '/artisan-dashboard' : '/')
+      if (user){ navigate(formData.role === 'artisan' ? '/artisan-dashboard' : '/')}
     } catch (err) {
       console.error('Login error in component:', err)
     }
