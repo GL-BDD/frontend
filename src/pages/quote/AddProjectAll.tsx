@@ -6,6 +6,7 @@ import './addprojectall.css'
 const BASE_URL = import.meta.env.VITE_API_URL
 
 const specializations = ['électricien', 'plombier', 'peintre']
+const unite = ['Projet complet', 'Par mètre', 'Par jour', 'Par heure']
 
 const AddProject: React.FC = () => {
   const { token, isAuthenticated } = useAuth()
@@ -128,6 +129,22 @@ const AddProject: React.FC = () => {
           <div className="datefin">
             <label htmlFor="">Date de Fin</label>
             <input type="date" id="datefin" name="datefin" />
+          </div>
+          <div>
+            <label htmlFor="prix">Prix par unité</label>
+            <select id="prix" name="prix" required>
+              {unite.map((unit) => (
+                <option key={unit} value={unit}>
+                  {unit}
+                </option>
+              ))}
+            </select>
+            <input
+              type="number"
+              id="prix"
+              name="prix"
+              placeholder="choisir un prix"
+            />
           </div>
 
           {error && <p style={{ color: 'red' }}>{error}</p>}

@@ -6,7 +6,7 @@ const BASE_URL = import.meta.env.VITE_API_URL
 
 import './addprojectartisan.css'
 const specializations = ['électricien', 'plombier', 'peintre']
-
+const unite = ['Projet Complet', 'Par mètre', 'Par jour', 'Par heure']
 export default function AddProjectArtisan() {
   const { artisanId } = useParams()
   const { token, isAuthenticated } = useAuth()
@@ -106,12 +106,28 @@ export default function AddProjectArtisan() {
             />
           </div>
           <div className="datedebut">
-            <label htmlFor="">Date de Début</label>
+            <label htmlFor="datedebut">Date de Début</label>
             <input type="date" id="datadebut" name="datedebut" />
           </div>
           <div className="datefin">
-            <label htmlFor="">Date de Fin</label>
+            <label htmlFor="datefin">Date de Fin</label>
             <input type="date" id="datefin" name="datefin" />
+          </div>
+          <div>
+            <label htmlFor="prix">Prix par unité</label>
+            <select id="prix" name="prix" required>
+              {unite.map((unit) => (
+                <option key={unit} value={unit}>
+                  {unit}
+                </option>
+              ))}
+            </select>
+            <input
+              type="number"
+              id="prix"
+              name="prix"
+              placeholder="choisir un prix"
+            />
           </div>
           {error && <p style={{ color: 'red' }}>{error}</p>}
         </form>
