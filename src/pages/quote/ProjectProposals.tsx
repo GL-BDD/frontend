@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import axios from 'axios'
 import './quote.css'
+import Proposals from '../../components/quote/Proposals'
 const BASE_URL = import.meta.env.VITE_API_URL
 
 export default function projectProposals() {
@@ -69,16 +70,8 @@ export default function projectProposals() {
               <h3 className="text-3xl font-bold text-gray-800 mb-4">
                 Proposals by specialization
               </h3>
-              {proposalsBySpecialization.map((proposal) => (
-                <div className="proposal">
-                  <p>{proposal?.description}</p>
-                  {!proposal?.attachment ? (
-                    <p>no attachments</p>
-                  ) : (
-                    <img className="proposal-image" src={proposal.attachment} />
-                  )}
-                </div>
-              ))}
+              <Proposals proposals={proposalsBySpecialization} />
+              
             </div>
           )}
         </>
