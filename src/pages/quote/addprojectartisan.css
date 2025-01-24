@@ -1,0 +1,111 @@
+h2 {
+  margin: 0;
+}
+
+.addprojectartisan-page {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.addprojectartisan-page form div {
+  display: flex;
+  padding-top: 20px;
+  justify-content: flex-start;
+}
+
+.addprojectartisan-page form div label {
+  padding-right: 50px;
+}
+
+.addprojectartisan-page form textarea {
+  width: 400px;
+  min-height: 120px;
+  padding: 10px;
+  font-size: 1rem;
+  font-family: Arial, sans-serif;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.addprojectartisan-page form div select {
+  text-align: center;
+  width: 150px;
+  padding: 5px 15px;
+  font-size: 1rem;
+  font-family: Arial, sans-serif;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  appearance: none;
+  cursor: pointer;
+  margin-left: -10px;
+}
+
+.addprojectartisan-page form div input[type='file']::file-selector-button {
+  margin-right: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: white;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.addprojectartisan-page form div input[type='date'] {
+  margin-right: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background-color: white;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.addprojectartisan-page form div.datedebut input[type='date'] {
+  margin-left: -20px;
+}
+
+.addprojectartisan-page form div.datefin input[type='date'] {
+  margin-left: 4px;
+}
+
+.addprojectartisan-page form div input {
+  margin-left: 32px;
+}
+
+.addprojectartisan-page div.button {
+  margin-top: 25px;
+  button {
+    background-color: #39a2f2;
+    color: white;
+  }
+}
+
+@media (max-width: 750px) {
+  .addprojectartisan-page {
+    padding: 0 40px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 40px;
+  }
+  .addprojectartisan-page form div {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+  }
+  .addprojectartisan-page form div label {
+    padding-bottom: 10px;
+  }
+  .addprojectartisan-page form textarea {
+    width: 300px;
+  }
+}

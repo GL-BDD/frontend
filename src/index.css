@@ -24,6 +24,11 @@ a {
 @media (min-width: 1100px) {
   .container {
     padding-inline: 119.6px;
+    background: linear-gradient(
+      180deg,
+      rgba(57, 162, 242, 0.1008) 0%,
+      rgba(57, 162, 242, 0)
+    );
   }
 }
 
