@@ -15,9 +15,9 @@ import ArtisanProfile from './pages/artisan/ArtisanProfile'
 
 const App: React.FC = () => {
   return (
-        <BrowserRouter>
-    <AuthProvider>
-      <ProfessionProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <ProfessionProvider>
           <NavBar />
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -35,10 +35,9 @@ const App: React.FC = () => {
             />
             <Route path="/project-proposals" element={<ProjectProposals />} />
           </Routes>
-      </ProfessionProvider>
-    </AuthProvider>
-        </BrowserRouter>
+        </ProfessionProvider>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
-
 export default App

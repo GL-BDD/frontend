@@ -6,25 +6,27 @@ import EmailIcon from '@mui/icons-material/Email'
 import PlaceIcon from '@mui/icons-material/Place'
 import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
+import { useAuth } from '../../context/AuthContext'
 
-// import { ImageList, ImageListItem, ImageListItemBar } from '@mui/material'
-
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL
 
 export default function Employee() {
   const { idUtilisateur } = useParams()
   const [employee, setEmployee] = useState({})
   const [loading, setLoading] = useState(false)
-  const navigate = useNavigate();
-  
+  const navigate = useNavigate()
+
+  const [toggle, setToggle] = useState(false)
+
+  const handleToggle = () => {
+    setToggle(!toggle)
+  }
 
   async function fetchEmployeeByID() {
     try {
       setLoading(true)
-      const res = await fetch(
-        `${BASE_URL}/api/artisans/${idUtilisateur}`,
-      )
+      const res = await fetch(`${BASE_URL}/api/artisans/${idUtilisateur}`)
       const data = await res.json()
       setLoading(false)
       setEmployee(data.artisan)
@@ -37,10 +39,7 @@ export default function Employee() {
     fetchEmployeeByID()
   }, [idUtilisateur])
 
-  const imageEmployee =
-    'https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg'
-
-  const handleButtonClick = ()=>{
+  const handleButtonClick = () => {
     console.log('button clicked')
     navigate(`/project-proposal/${idUtilisateur}`)
   }
@@ -53,7 +52,7 @@ export default function Employee() {
         <>
           <div className="employeepage__information">
             <div className="employee--image">
-              <img src={imageEmployee} alt="" />
+              {employee.username?.charAt(0)}
             </div>
             <div className="employee--details">
               <div>
@@ -61,12 +60,7 @@ export default function Employee() {
                 <p>
                   {employee.specialization} :{employee.specialization}
                 </p>
-                <p
-                // className={`${employee.disponibilite ? 'disponible' : 'non-disponible'}`}
-                >
-                  {/* {employee.disponibilite ? 'disponible' : 'non displonible'} */}
-                  disponible
-                </p>
+                <p>disponible</p>
               </div>
             </div>
             <div className="employeepage--contact">
@@ -84,7 +78,9 @@ export default function Employee() {
               </div>
             </div>
             <div className="employeepage--chat">
-              <button onClick={handleButtonClick} className="chat">Demander un Devis</button>
+              <button onClick={handleButtonClick} className="chat">
+                Demander un Devis
+              </button>
               <p className="chat">Contacter</p>
             </div>
           </div>
@@ -114,26 +110,90 @@ export default function Employee() {
             </p>
           </div>
           <div className="employeepage__realisation">
-            <h2>Réalisation</h2>
-            {/* <ImageList variant="masonry" cols={3} gap={8}>
-          {employee.realisation.realisationImage.map((item) => (
-            <ImageListItem key={item.img}>
-              <img
-                srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                src={`${item.img}?w=248&fit=crop&auto=format`}
-                alt={item.title}
-                loading="lazy"
-              />
-              <ImageListItemBar position="below" title={item.author} />
-            </ImageListItem>
-          ))}
-        </ImageList> */}
+            <div className="employeepage__realisation_header">
+              <h2>Réalisation</h2>
+              <p className="ptoggle" onClick={() => handleToggle()}>
+                +
+              </p>
+            </div>
+            {toggle ? (
+              <div className="employeepage__realisation_header_realisation">
+                <Realisation />
+              </div>
+            ) : (
+              ''
+            )}
           </div>
+
           <div className="employeepage__certification">
             <h2>Cértification</h2>
           </div>
         </>
       )}
     </div>
+  )
+}
+
+type Userid = {}
+type RealisationrProps = {
+  user: Userid
+}
+
+const Realisation: React.FC<RealisationrProps> = ({ user }) => {
+  const BASE_URL = import.meta.env.VITE_API_URL
+  const { idUtilisateur } = useParams()
+  const [project, setProject] = useState({})
+  const [loading, setLoading] = useState(false)
+  const { token } = useAuth()
+
+  async function fetchEmployeeProject() {
+    try {
+      setLoading(true)
+      const res = await fetch(
+        `${BASE_URL}/api/artisans/project/${idUtilisateur}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+
+      const data = await res.json()
+      console.log('projet : ', data)
+      setLoading(false)
+      setProject(data.projects)
+    } catch (e) {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchEmployeeProject()
+  }, [idUtilisateur])
+  return (
+    <>
+      <p>
+        Électricien qualifié pour vos installations, dépannages, mises aux
+        normes électriques et climatisation. <br />
+        <br />
+        Je propose une large gamme de services, dont : <br />- Installation
+        électrique complète (neuve ou rénovation) <br />- Dépannage et
+        maintenance <br />- Mise aux normes de vos installations électriques
+        <br />- Installation de domotique <br />- Motorisation portail et
+        visiophonie <br />- Pose et dépannage de climatisation ( agrée pour la
+        manipulation fluides frigorigènes ) <br />
+        ... et bien plus encore !
+        <br />
+        <br />
+        Je suis disponible pour les particuliers, les professionnels et les
+        collectivités. <br />
+        <br />
+        N'hésitez pas à me contacter pour un devis. Mots-clés : électricien,
+        dépannage électrique, installation électrique, mise aux normes
+        électriques, domotique, climatisation."
+      </p>
+    </>
   )
 }

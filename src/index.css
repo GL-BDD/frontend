@@ -11,6 +11,17 @@ body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
 }
+body[dir='rtl'] {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Tajawal', sans-serif; /* Exemple pour l'arabe */
+}
+
+body[dir='ltr'] {
+  direction: ltr;
+  text-align: left;
+  font-family: 'Arial', sans-serif; /* Exemple pour le français */
+}
 
 :root {
   --main-color-: #39a2f2;

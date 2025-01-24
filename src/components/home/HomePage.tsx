@@ -8,52 +8,76 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 
 export default function HomePage() {
-  const { user } = useAuth();
+  const { user } = useAuth()
   const navigate = useNavigate()
   console.log(user)
-  
+
   return (
     <div className="home-page">
-      <div className="herro-section">
+      <div
+        className={
+          user == null ? 'herro-section herro-section-min' : 'herro-section'
+        }
+      >
         {user && (
           <div className="w-full max-w-4xl mx-auto px-4 py-6">
             <h1 className="text-3xl font-bold text-gray-800 mb-4">
-              Hello, <span className="text-blue-600 capitalize">{user.username}</span>! 👋
+              Hello,{' '}
+              <span className="text-blue-600 capitalize">{user.username}</span>!
+              👋
             </h1>
           </div>
         )}
         <h2>Veuillez choisir une profession</h2>
-        <SearchBar />
+        <SearchBar user={user} />
 
         {user && user.role === 'client' && (
-             <button className="project-proposal-button" onClick={()=>{navigate('/project-proposal')}}>
-        ajouter un projet
-      </button>
+          <button
+            className="project-proposal-button"
+            onClick={() => {
+              navigate('/project-proposal')
+            }}
+          >
+            ajouter un projet
+          </button>
         )}
-     
       </div>
-      <About />
-      <Artisans />
+      {user == null ? <About /> : ''}
+      {user == null ? <Artisans /> : ''}
       <Footer />
     </div>
   )
 }
 
 // Search Bar Component
+type User = {
+  id: number
+  email: string
+  username: string
+  role: string
+  iat: number
+  exp: number
+}
+type SearchBarProps = {
+  user: User
+}
 
-function SearchBar() {
-  //profession liste
+const SearchBar: React.FC<SearchBarProps> = ({ user }) => {
+  // Liste des professions
   const professions = ['électricien', 'plombier', 'peintre']
-  const [profession, setProfession] = useState('')
+  const [profession, setProfession] = useState<string>('') // Typage explicite
   const { setSelectedProfession } = useProfession()
   const navigate = useNavigate()
-  //handle the search of the profession
+
+  // Gérer la recherche de la profession
   function handleSearch() {
     if (profession) {
       setSelectedProfession(profession)
-      navigate(`/profession/${profession}`) // Rediriger
+      navigate(`/profession/${profession}`) // Redirection
     }
   }
+
+  console.log(user) // Afficher les infos utilisateur dans la console
 
   return (
     <div className="searchbar">
