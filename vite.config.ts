@@ -10,8 +10,8 @@ export default defineConfig({
       '/api': {
         target: 'https://backend-yijt.onrender.com',
         changeOrigin: true,
-        secure: false
-      }
-    }
-  }
+        secure: false,
+      },
+    },
+  },
 })

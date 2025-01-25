@@ -1,3 +1,27 @@
+/**
+ * NavBar component that renders a navigation bar with links and language switcher.
+ *
+ * @component
+ * @example
+ * return (
+ *   <NavBar />
+ * )
+ *
+ * @returns {JSX.Element} The rendered NavBar component.
+ *
+ * @remarks
+ * This component uses several hooks:
+ * - `useState` to manage the active state of the hamburger menu.
+ * - `useAuth` to get the current user and logout function.
+ * - `useNavigate` to navigate to different routes.
+ * - `useTranslation` to handle language switching.
+ *
+ * The component conditionally renders different links based on the user's role and authentication status.
+ * It also includes a language switcher to toggle between French and Arabic.
+ *
+ * @function
+ * @name NavBar
+ */
 import { useState } from 'react'
 import './NavBar.css'
 import { Link } from 'react-router-dom'
@@ -52,7 +76,7 @@ export default function NavBar() {
               <button
                 className="logout"
                 onClick={() => {
-                  navigate(`/artisan-profile/${user?.id}`)
+                  navigate(`/profession/:profession/${user?.id}`)
                 }}
               >
                 {user?.username}

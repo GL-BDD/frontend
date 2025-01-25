@@ -1,3 +1,52 @@
+/**
+ * AddProjectArtisan component allows users to submit a project request by providing
+ * a description, images, start and end dates, and price per unit.
+ *
+ * @component
+ * @example
+ * return (
+ *   <AddProjectArtisan />
+ * )
+ *
+ * @returns {JSX.Element} The rendered component.
+ *
+ * @remarks
+ * This component uses the `useParams` hook to get the artisan ID from the URL,
+ * the `useAuth` hook to get authentication information, and the `useNavigate` hook
+ * to navigate to different routes.
+ *
+ * @function
+ * @name AddProjectArtisan
+ *
+ * @requires useState
+ * @requires useParams
+ * @requires useNavigate
+ * @requires axios
+ * @requires useAuth
+ *
+ * @constant {string} BASE_URL - The base URL for the API.
+ * @constant {string[]} specializations - List of specializations.
+ * @constant {string[]} unite - List of units for pricing.
+ *
+ * @param {Object} formData - The form data containing description and images.
+ * @param {string} formData.description - The description of the project.
+ * @param {File[]} formData.images - The images of the project.
+ * @param {string} error - The error message if the project submission fails.
+ * @param {boolean} isLoading - The loading state of the form submission.
+ *
+ * @event handleChange - Handles changes to the input fields.
+ * @param {React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>} e - The change event.
+ *
+ * @event handleFileChange - Handles changes to the file input field.
+ * @param {React.ChangeEvent<HTMLInputElement>} e - The change event.
+ *
+ * @event handleSubmit - Handles the form submission.
+ * @param {React.FormEvent<HTMLFormElement>} e - The form event.
+ *
+ * @throws Will throw an error if the project submission fails.
+ *
+ * @returns {JSX.Element} The rendered component.
+ */
 import React, { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
