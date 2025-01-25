@@ -78,6 +78,7 @@ import { useAuth } from '../../context/AuthContext'
 import AddCertification from './addcertification/AddCertification'
 import Realisation from './realisation/Realisation'
 import AddProjectForm from './addproject/AddProjectForm'
+import ShowCertifications from '../../components/certifications/ShowCertifications'
 
 const BASE_URL = import.meta.env.VITE_API_URL
 
@@ -91,6 +92,7 @@ export default function Employee() {
   }
 
   const [employee, setEmployee] = useState<Employee>({})
+  const [certifications, setCertifications] = useState([])
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
   const { user } = useAuth()
@@ -106,14 +108,27 @@ export default function Employee() {
       setLoading(true)
       const res = await fetch(`${BASE_URL}/api/artisans/${idUtilisateur}`)
       const data = await res.json()
-      setLoading(false)
       setEmployee(data.artisan)
+      setLoading(false)
+    } catch {
+      setLoading(false)
+    }
+  }
+  const fetchCertifications = async()=>{
+    try {
+      setLoading(true)
+      const res = await fetch(`${BASE_URL}/api/artisans/certifications/${idUtilisateur}`)
+      const data = await res.json()
+      setCertifications(data.certifications)
+      console.log(data.certifications)      
+      setLoading(false)
     } catch {
       setLoading(false)
     }
   }
   useEffect(() => {
-    fetchEmployeeByID()
+    fetchEmployeeByID();
+    fetchCertifications();
   }, [idUtilisateur])
 
   const handleButtonClick = () => {
@@ -216,6 +231,7 @@ export default function Employee() {
           <div className="employeepage__certification">
             <h2>Cértification</h2>
             {user?.role == 'artisan' ? <AddCertification /> : ''}
+          <ShowCertifications certifications={certifications}/>
           </div>
         </>
       )}
