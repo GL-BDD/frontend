@@ -13,6 +13,7 @@ import AddProjectArtisan from './pages/quote/AddProjectArtisan'
 import ProjectProposals from './pages/quote/ProjectProposals'
 import ArtisanProfile from './pages/artisan/ArtisanProfile'
 import ShowProposal from './pages/quote/ShowProposal'
+import ArtisanDashboard from './pages/ArtisanDashboard'
 
 const App: React.FC = () => {
   return (
@@ -36,6 +37,7 @@ const App: React.FC = () => {
             />
             <Route path="/project-proposals" element={<ProjectProposals />} />
             <Route path="/project-proposals/:proposalId" element={<ShowProposal />} />
+            <Route path="/artisan-dashboard" element={<ArtisanDashboard />} />
           </Routes>
       </ProfessionProvider>
     </AuthProvider>
