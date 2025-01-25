@@ -13,7 +13,10 @@ import AddProjectArtisan from './pages/quote/AddProjectArtisan'
 import ProjectProposals from './pages/quote/ProjectProposals'
 import ArtisanProfile from './pages/artisan/ArtisanProfile'
 import ShowProposal from './pages/quote/ShowProposal'
+<<<<<<< HEAD
 import ArtisanDashboard from './pages/ArtisanDashboard'
+=======
+>>>>>>> 177150271e8f4c26932f14cdb15e14751ec00e72
 
 const App: React.FC = () => {
   return (
@@ -37,7 +40,10 @@ const App: React.FC = () => {
             />
             <Route path="/project-proposals" element={<ProjectProposals />} />
             <Route path="/project-proposals/:proposalId" element={<ShowProposal />} />
+<<<<<<< HEAD
             <Route path="/artisan-dashboard" element={<ArtisanDashboard />} />
+=======
+>>>>>>> 177150271e8f4c26932f14cdb15e14751ec00e72
           </Routes>
         </ProfessionProvider>
       </AuthProvider>
