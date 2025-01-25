@@ -1,3 +1,26 @@
+/**
+ * The main application component that sets up the routing for the application.
+ * It uses `BrowserRouter` from `react-router-dom` to handle client-side routing.
+ * The application is wrapped with `AuthProvider` and `ProfessionProvider` to provide
+ * authentication and profession context to the entire app.
+ *
+ * @component
+ * @example
+ * return (
+ *   <App />
+ * )
+ *
+ * Routes:
+ * - `/` - Renders the `HomePage` component.
+ * - `/profession/:profession` - Renders the `EmployeesPage` component.
+ * - `/profession/:profession/:idUtilisateur` - Renders the `Employee` component.
+ * - `/singin` - Renders the `SingIn` component.
+ * - `/singup` - Renders the `SingUp` component.
+ * - `/project-proposal` - Renders the `AddProjectAll` component.
+ * - `/project-proposal/:artisanId` - Renders the `AddProjectArtisan` component.
+ * - `/project-proposals` - Renders the `ProjectProposals` component.
+ * - `/project-proposals/:proposalId` - Renders the `ShowProposal` component.
+ */
 import React from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import SingIn from './pages/sing-in-up/SingIn'
@@ -17,9 +40,9 @@ import ArtisanDashboard from './pages/ArtisanDashboard'
 
 const App: React.FC = () => {
   return (
-        <BrowserRouter>
-    <AuthProvider>
-      <ProfessionProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <ProfessionProvider>
           <NavBar />
           <Routes>
             <Route path="/" element={<HomePage />} />
@@ -36,13 +59,16 @@ const App: React.FC = () => {
               element={<AddProjectArtisan />}
             />
             <Route path="/project-proposals" element={<ProjectProposals />} />
+            <Route
+              path="/project-proposals/:proposalId"
+              element={<ShowProposal />}
+            />
             <Route path="/project-proposals/:proposalId" element={<ShowProposal />} />
             <Route path="/artisan-dashboard" element={<ArtisanDashboard />} />
           </Routes>
-      </ProfessionProvider>
-    </AuthProvider>
-        </BrowserRouter>
+        </ProfessionProvider>
+      </AuthProvider>
+    </BrowserRouter>
   )
 }
-
 export default App

@@ -1,3 +1,39 @@
+/**
+ * Component that fetches and displays project proposals for an artisan user.
+ *
+ * This component fetches proposals based on the user's specialization and ID,
+ * and displays them in separate sections. If the user is not an artisan, an
+ * unauthorized message is shown.
+ *
+ * @component
+ * @example
+ * return (
+ *   <ProjectProposals />
+ * )
+ *
+ * @returns {JSX.Element} The rendered component.
+ *
+ * @remarks
+ * - Uses `useAuth` to get the current user and token.
+ * - Fetches proposals from the API using `axios`.
+ * - Displays loading state while fetching data.
+ * - Displays proposals in two sections: by specialization and by user ID.
+ *
+ * @function fetchProposals
+ * Fetches proposals from the API based on the user's specialization and ID.
+ *
+ * @async
+ * @returns {Promise<void>} A promise that resolves when the data is fetched.
+ *
+ * @throws Will set loading to false if an error occurs during the fetch.
+ *
+ * @hook useEffect
+ * Fetches proposals when the component mounts or when the token changes.
+ *
+ * @state {Array} proposalsById - Proposals fetched based on the user's ID.
+ * @state {Array} proposalsBySpecialization - Proposals fetched based on the user's specialization.
+ * @state {boolean} loading - Indicates whether the data is currently being fetched.
+ */
 import { useEffect, useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import axios from 'axios'
@@ -71,7 +107,6 @@ export default function projectProposals() {
                 Proposals by specialization
               </h3>
               <Proposals proposals={proposalsBySpecialization} />
-              
             </div>
           )}
         </>

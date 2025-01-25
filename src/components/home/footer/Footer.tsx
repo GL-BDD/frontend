@@ -3,6 +3,18 @@ import FacebookIcon from '@mui/icons-material/Facebook'
 import XIcon from '@mui/icons-material/X'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import InstagramIcon from '@mui/icons-material/Instagram'
+/**
+ * Footer component that renders the footer section of the website.
+ * It includes social media icons and navigation links.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Footer />
+ * )
+ *
+ * @returns {JSX.Element} The rendered footer component.
+ */
 export default function Footer() {
   return (
     <>

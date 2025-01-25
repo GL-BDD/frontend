@@ -1,0 +1,26 @@
+.employepage .realisation-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  padding-bottom: 30px;
+  gap: 30px;
+}
+
+.employepage .realisation-container .project {
+  border-radius: 20px;
+  padding: 20px 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.employepage .realisation-container .project div button {
+  background-color: rgb(255, 0, 0);
+  font-size: 14px;
+  border-radius: 30px;
+  letter-spacing: 0.6px;
+  font-weight: 500;
+  color: white;
+}

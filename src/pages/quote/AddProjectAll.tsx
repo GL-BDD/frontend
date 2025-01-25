@@ -1,3 +1,42 @@
+/**
+ * AddProject component allows users to add a new project by filling out a form.
+ * The form includes fields for description, specialization, images, start date, end date, and price per unit.
+ * The component handles form submission, including file uploads, and sends the data to the server.
+ *
+ * @component
+ *
+ * @example
+ * <AddProject />
+ *
+ * @returns {JSX.Element} The rendered component.
+ *
+ * @remarks
+ * This component requires the user to be authenticated. If the user is not authenticated, a message is displayed.
+ *
+ * @function
+ * @name AddProject
+ *
+ * @typedef {Object} FormData
+ * @property {string} description - The description of the project.
+ * @property {string} specialization - The specialization required for the project.
+ * @property {File[]} images - The images related to the project.
+ *
+ * @typedef {Object} AuthContext
+ * @property {string} token - The authentication token.
+ * @property {boolean} isAuthenticated - The authentication status.
+ *
+ * @param {React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>} e - The change event for form inputs.
+ * @param {React.ChangeEvent<HTMLInputElement>} e - The change event for file input.
+ * @param {React.FormEvent<HTMLFormElement>} e - The form submission event.
+ *
+ * @throws {Error} If the project submission fails.
+ *
+ * @requires useState
+ * @requires axios
+ * @requires useNavigate
+ * @requires useAuth
+ * @requires './addprojectall.css'
+ */
 import React, { useState } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'

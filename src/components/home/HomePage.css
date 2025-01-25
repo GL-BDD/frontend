@@ -13,6 +13,9 @@
   transform: translateY(25%);
   gap: 40px;
 }
+.herro-section-min {
+  min-height: 30vh !important;
+}
 
 .herro-section .searchbar {
   display: flex;
