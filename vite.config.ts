@@ -6,7 +6,7 @@ export default defineConfig({
   server: {
     allowedHosts: [
       'frontend-rexo.onrender.com'
-    ]
+    ],
     port: 5173,
     host: true,
     proxy: {
