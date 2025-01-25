@@ -1,0 +1,192 @@
+.signin,
+.signup {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  max-width: 1000px;
+  margin: 0 auto;
+  min-height: 600px;
+}
+
+.signup {
+  margin-top: 10px;
+}
+
+.signin {
+  transform: translateY(20%);
+}
+
+.signin .signin--information,
+.signup .signup--information {
+  padding: 30px 40px;
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  max-width: 45%;
+}
+
+.signin .signin--image,
+.signup .signup--image {
+  width: 55%;
+  max-width: 55%;
+  position: relative;
+  overflow: hidden;
+}
+
+.signin .signin--image img,
+.signup .signup--image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.signin h2,
+.signup h2 {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.signin form,
+.signup form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.signin form label,
+.signup form label {
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'],
+input[type='tel'] {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+input[type='text']:focus,
+input[type='email']:focus,
+input[type='password']:focus,
+input[type='tel']:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.1);
+}
+
+.signin .role-checkbox,
+.signup .role-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.signin .role-checkbox label,
+.signup .role-checkbox label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  user-select: none;
+  margin: 0;
+  color: #666;
+}
+
+.signin .role-checkbox input[type='checkbox'],
+.signup .role-checkbox input[type='checkbox'] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+}
+
+button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+button.bleu {
+  background-color: #007bff;
+  color: white;
+}
+
+button.bleu:hover:not(:disabled) {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+.signin p,
+.signup p {
+  margin-top: 20px;
+  text-align: center;
+  color: #666;
+}
+
+.signin a,
+.signup a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.signin a:hover,
+.signup a:hover {
+  text-decoration: underline;
+}
+
+/* Error and success messages */
+p[style*="color: red"],
+p[style*="color: green"] {
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 6px;
+  background-color: rgba(255, 0, 0, 0.1);
+}
+
+p[style*="color: green"] {
+  background-color: rgba(0, 255, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .signin,
+  .signup {
+    flex-direction: column;
+    max-width: 90%;
+    min-height: auto;
+  }
+
+  .signin .signin--information,
+  .signup .signup--information,
+  .signin .signin--image,
+  .signup .signup--image {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .signin .signin--image,
+  .signup .signup--image {
+    height: 200px;
+  }
+}

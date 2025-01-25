@@ -1,0 +1,92 @@
+.employepage {
+  background-color: #efeded3d;
+  min-height: 100vh;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+p {
+  color: black;
+}
+.employepage > div {
+  max-width: 90%;
+  width: 90%;
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px;
+  margin-top: 30px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 5px 15px;
+}
+
+.employeepage__information {
+  height: fit-content;
+  display: flex;
+  gap: 20px;
+  justify-content: space-around;
+}
+
+.employeepage__information .employee--image {
+  width: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  aspect-ratio: 1/1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.employeepage__information .employee--details {
+}
+
+.employepage .employeepage--contact {
+  div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.employeepage__information .employeepage--chat {
+}
+
+.employeepage__information .employeepage--chat p.chat {
+  padding: 10px 20px;
+  color: white;
+  background-color: var(--main-color-);
+  border-radius: 20px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.disponible {
+  color: green;
+  font-weight: 500;
+}
+.non-disponible {
+  color: red;
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .employeepage__information {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+}
+
+.employepage .employeepage__presentation {
+}
+
+.employepage .employeepage__realisation .employeepage__realisation_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  p.ptoggle {
+    font-size: 25px;
+    font-weight: bold;
+    padding-right: 20px;
+    cursor: pointer;
+  }
+}

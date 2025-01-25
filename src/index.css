@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap');
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+}
+body[dir='rtl'] {
+  direction: rtl;
+  text-align: right;
+  font-family: 'Tajawal', sans-serif; /* Exemple pour l'arabe */
+}
+
+body[dir='ltr'] {
+  direction: ltr;
+  text-align: left;
+  font-family: 'Arial', sans-serif; /* Exemple pour le français */
+}
+
+:root {
+  --main-color-: #39a2f2;
+  --secondary-color-: #656b8b;
+}
+
+a {
+  text-decoration: none;
+}
+
+@media (min-width: 1100px) {
+  .container {
+    padding-inline: 119.6px;
+    background: linear-gradient(
+      180deg,
+      rgba(57, 162, 242, 0.1008) 0%,
+      rgba(57, 162, 242, 0)
+    );
+  }
+}
+
+@media (min-width: 800px) and (max-width: 1100px) {
+  .container {
+    padding-inline: 90px;
+  }
+}
