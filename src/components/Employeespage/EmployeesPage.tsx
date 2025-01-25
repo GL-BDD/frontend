@@ -46,16 +46,18 @@ export default function EmployeesPage() {
   const [loading, setLoading] = useState(false)
 
   async function fetchEmployeesByProfession() {
+    console.log('fetching employees')
     try {
       setLoading(true)
       const res = await fetch(
         `${BASE_URL}/api/artisans?specialization=${profession}`,
       )
       const data = await res.json()
+      setEmployees(data.artisans)
+      console.log(data.artisans)
       setLoading(false)
-      setEmployees(data)
-    } catch {
-      setLoading(false)
+    } catch(e) {
+      console.error(e)
     }
   }
 
@@ -72,11 +74,11 @@ export default function EmployeesPage() {
       ) : (
         <>
           {employees.map((employee) => (
-            <Link to={`/profession/${profession}/${employee.id}`}>
+            <Link to={`/profession/${profession}/${employee.artisan_id}`}>
               <Employee
-                key={employee.id}
+                key={employee.artisan_id}
                 nom={employee.username}
-                phoneNumber={employee.phonenumber}
+                phone_number={employee.phone_number}
                 imageURL=""
               />
             </Link>
@@ -91,16 +93,16 @@ export default function EmployeesPage() {
 
 interface EmployeeProps {
   nom: string
-  phoneNumber: string
+  phone_number: string
   imageURL: string
 }
 
-const Employee: React.FC<EmployeeProps> = ({ nom, phoneNumber }) => {
+const Employee: React.FC<EmployeeProps> = ({ nom, phone_number }) => {
   return (
     <div className="employee">
       <div className="image"></div>
       <h2>{nom}</h2>
-      <p>{phoneNumber}</p>
+      <p>{phone_number}</p>
     </div>
   )
 }

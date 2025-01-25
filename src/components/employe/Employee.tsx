@@ -135,7 +135,7 @@ export default function Employee() {
               <div>
                 <h3>{employee.username}</h3>
                 <p>
-                  {employee.specialization} :{employee.specialization}
+                  specialization :{employee.specialization}
                 </p>
                 <p>disponible</p>
               </div>
@@ -143,7 +143,7 @@ export default function Employee() {
             <div className="employeepage--contact">
               <div>
                 <LocalPhoneIcon style={{ fontSize: '20px' }} />{' '}
-                <p>{employee.phonenumber}</p>
+                <p>{employee.phone_number}</p>
               </div>
               <div>
                 <PlaceIcon style={{ fontSize: '20px' }} />
