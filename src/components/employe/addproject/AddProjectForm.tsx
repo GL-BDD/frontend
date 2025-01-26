@@ -71,13 +71,13 @@ const AddProjectForm: React.FC = () => {
       const response = await fetch(`${BASE_URL}/api/artisans/project`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`, // Ajouter le token dans l'en-tête
+          Authorization: `Bearer ${token}`,
         },
-        body: formData, // Passer les données du formulaire
+        body: formData,
       })
 
       if (!response.ok) {
-        const errorMessage = await response.text() // Lire le texte de l'erreur
+        const errorMessage = await response.text()
         throw new Error(errorMessage || "Erreur lors de l'ajout du projet")
       }
 
