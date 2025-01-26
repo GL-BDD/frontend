@@ -2,12 +2,13 @@ import { useParams } from 'react-router-dom'
 import { useAuth } from '../../../context/AuthContext'
 import { useEffect, useState } from 'react'
 import './realisation.css'
+
 type Userid = {}
-type RealisationrProps = {
+type RealisationProps = {
   user: Userid
 }
 
-const Realisation: React.FC<RealisationrProps> = ({ user }) => {
+const Realisation: React.FC<RealisationProps> = ({ user }) => {
   const BASE_URL = import.meta.env.VITE_API_URL
   const { idUtilisateur } = useParams<{ idUtilisateur: string }>()
   const { token } = useAuth()
@@ -15,6 +16,7 @@ const Realisation: React.FC<RealisationrProps> = ({ user }) => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  // Fonction pour récupérer les projets
   async function fetchEmployeeProjects() {
     if (!idUtilisateur) {
       setError('Aucun utilisateur spécifié.')
@@ -31,7 +33,7 @@ const Realisation: React.FC<RealisationrProps> = ({ user }) => {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`, // Token pour l'authentification
+            Authorization: `Bearer ${token}`,
           },
         },
       )
@@ -44,11 +46,46 @@ const Realisation: React.FC<RealisationrProps> = ({ user }) => {
       }
 
       const data = await res.json()
-      setProjects(data.projects || []) // Assurez-vous que la réponse contient bien un tableau `projects`
+      setProjects(data.projects || [])
     } catch (err: any) {
       setError(err.message || 'Une erreur est survenue.')
     } finally {
       setLoading(false)
+    }
+  }
+
+  // Fonction pour supprimer un projet
+  async function handleDeleteProject(projectId: string) {
+    if (!idUtilisateur) {
+      setError('Aucun utilisateur spécifié.')
+      return
+    }
+
+    try {
+      const res = await fetch(`${BASE_URL}/api/artisans/project/${projectId}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      if (!res.ok) {
+        const errorMessage = await res.text()
+        throw new Error(
+          errorMessage || 'Erreur lors de la suppression du projet.',
+        )
+      }
+
+      setProjects((prevProjects) =>
+        prevProjects.filter((project) => project.id !== projectId),
+      )
+
+      alert('Projet supprimé avec succès.')
+      //le nouveau contenue des projets
+      await fetchEmployeeProjects()
+    } catch (err: any) {
+      setError(err.message || 'Une erreur est survenue lors de la suppression.')
     }
   }
 
@@ -85,7 +122,14 @@ const Realisation: React.FC<RealisationrProps> = ({ user }) => {
               </>
             )}
             <div>
-              <button>Supprimer le projet</button>
+              <button
+                onClick={() =>
+                  handleDeleteProject(project.portfolio_project_id)
+                }
+                style={{ backgroundColor: 'red', color: 'white' }}
+              >
+                Supprimer le projet
+              </button>
             </div>
           </div>
         ))}
