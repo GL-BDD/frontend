@@ -31,7 +31,17 @@ export default function Artisans() {
           </div>
         </div>
         <div className="artisans-professions grid-container">
-          <Link to="maconnerie" className="card">
+          <Link to="/profession/plombier" className="card">
+            <div className="child">
+              <h4>Plomberie</h4>
+              <img src="/images/plomberie.jpg" alt="" />
+            </div>
+            <p>
+              Envie de rénover votre salle de bain ? Faites appel à une
+              entreprise de plomberie !
+            </p>
+          </Link>
+          <Link to="" className="card">
             <div className="child">
               <h4>Maçonnerie</h4>
               <img src="/images/maconnerie.jpg" alt="" />
@@ -41,7 +51,7 @@ export default function Artisans() {
               entreprise de maçonnerie
             </p>
           </Link>
-          <Link to="electricite" className="card">
+          <Link to="/profession/electricite" className="card">
             <div className="child">
               <h4>Électricité</h4>
               <img src="/images/electricite.jpg" alt="" />
@@ -52,7 +62,7 @@ export default function Artisans() {
               spécialisée en électricité !
             </p>
           </Link>
-          <Link to="menuiserie" className="card">
+          <Link to="" className="card">
             <div className="child">
               <h4>Menuiserie</h4>
               <img src="/images/menuiserie.jpg" alt="" />
@@ -62,7 +72,7 @@ export default function Artisans() {
               entreprises de menuiseries !
             </p>
           </Link>
-          <Link to="peinture" className="card">
+          <Link to="/profession/peintre" className="card">
             <div className="child">
               <h4>Peinture</h4>
               <img src="/images/peinture.jpg" alt="" />
@@ -72,17 +82,7 @@ export default function Artisans() {
               contactez une entreprise de peinture !
             </p>
           </Link>
-          <Link to="plomberie" className="card">
-            <div className="child">
-              <h4>Plomberie</h4>
-              <img src="/images/plomberie.jpg" alt="" />
-            </div>
-            <p>
-              Envie de rénover votre salle de bain ? Faites appel à une
-              entreprise de plomberie !
-            </p>
-          </Link>
-          <Link to="platrerie" className="card">
+          <Link to="" className="card">
             <div className="child">
               <h4>Plâtrerie</h4>
               <img src="/images/platerie.jpg" alt="" />
@@ -92,7 +92,7 @@ export default function Artisans() {
               plâtrerie !
             </p>
           </Link>
-          <Link to="architecture" className="card">
+          <Link to="" className="card">
             <div className="child">
               <h4>Architecture</h4>
               <img src="/images/architecrture.jpg" alt="" />
@@ -102,7 +102,7 @@ export default function Artisans() {
               votre projet ? Découvrez les entreprises d'architecture.
             </p>
           </Link>
-          <Link to="carrelage" className="card">
+          <Link to="" className="card">
             <div className="child">
               <h4>Carrelage</h4>
               <img src="/images/carrelage.jpg" alt="" />
@@ -112,7 +112,7 @@ export default function Artisans() {
               appel à une entreprise de carrelage !
             </p>
           </Link>
-          <Link to="charpente" className="card">
+          <Link to="" className="card">
             <div className="child">
               <h4>Charpente</h4>
               <img src="/images/charpente.jpg" alt="" />

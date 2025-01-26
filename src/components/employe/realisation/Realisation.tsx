@@ -103,13 +103,15 @@ const Realisation: React.FC<RealisationProps> = ({ user }) => {
         {projects.map((project, index) => (
           <div key={index} className="project">
             <p>
-              <strong>Prix :</strong> {project.price} €
+              <p>{project.date}</p>
+              <strong>Prix :</strong> {project.price} da
+              <p>{project.description}</p>
             </p>
             {project.attachments && project.attachments.length > 0 && (
               <>
-                <strong>Photos</strong>
+                {/* <strong>Photos</strong> */}
                 <div className="project-image">
-                  {project.attachments.map((attachment: string, i: number) => (
+                  {/* {project.attachments.map((attachment: string, i: number) => (
                     <div key={i}>
                       <img
                         src={attachment.attachment}
@@ -117,7 +119,7 @@ const Realisation: React.FC<RealisationProps> = ({ user }) => {
                         style={{ maxWidth: '200px' }}
                       />
                     </div>
-                  ))}
+                  ))} */}
                 </div>
               </>
             )}

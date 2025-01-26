@@ -56,7 +56,7 @@ export default function NavBar() {
           {user?.role === 'artisan' && (
             <>
               <li>
-                <Link to="project-proposals">proposals</Link>
+                <Link to="artisan-dashboard">dashboard</Link>
               </li>
             </>
           )}

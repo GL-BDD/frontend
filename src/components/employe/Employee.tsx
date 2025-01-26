@@ -187,34 +187,15 @@ export default function Employee() {
 
           <div className="employeepage__presentation">
             <h2>Présentation</h2>
-            <p>
-              Électricien qualifié pour vos installations, dépannages, mises aux
-              normes électriques et climatisation. <br />
-              <br />
-              Je propose une large gamme de services, dont : <br />-
-              Installation électrique complète (neuve ou rénovation) <br />-
-              Dépannage et maintenance <br />- Mise aux normes de vos
-              installations électriques
-              <br />- Installation de domotique <br />- Motorisation portail et
-              visiophonie <br />- Pose et dépannage de climatisation ( agrée
-              pour la manipulation fluides frigorigènes ) <br />
-              ... et bien plus encore !
-              <br />
-              <br />
-              Je suis disponible pour les particuliers, les professionnels et
-              les collectivités. <br />
-              <br />
-              N'hésitez pas à me contacter pour un devis. Mots-clés :
-              électricien, dépannage électrique, installation électrique, mise
-              aux normes électriques, domotique, climatisation."
-            </p>
+            <p>{employee.description}</p>
           </div>
           <div className="employeepage__realisation">
             <div className="employeepage__realisation_header">
               <h2>Réalisation</h2>
-              <p className="ptoggle" onClick={() => handleToggle()}>
+              {user && <p className="ptoggle" onClick={() => handleToggle()}>
                 {toggle ? '-' : '+'}
-              </p>
+              </p>}
+              
             </div>
             {toggle ? (
               <div className="employeepage__realisation_header_realisation">
@@ -236,7 +217,9 @@ export default function Employee() {
             <div className="employeepage__certification__header">
               <h2>Cértification</h2>
               <p className="ptoggle" onClick={() => handleToggleC()}>
+              {user && <p className="ptoggle" onClick={() => handleToggle()}>
                 {toggleC ? '-' : '+'}
+              </p>}
               </p>
             </div>
             {toggleC ? (
