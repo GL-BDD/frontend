@@ -75,7 +75,7 @@ const Realisation: React.FC<RealisationrProps> = ({ user }) => {
                   {project.attachments.map((attachment: string, i: number) => (
                     <div key={i}>
                       <img
-                        src={`${BASE_URL}/uploads/${attachment}`}
+                        src={attachment.attachment}
                         alt={`Projet ${index}`}
                         style={{ maxWidth: '200px' }}
                       />
