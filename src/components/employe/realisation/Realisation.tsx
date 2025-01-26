@@ -44,6 +44,7 @@ const Realisation: React.FC<RealisationrProps> = ({ user }) => {
       }
 
       const data = await res.json()
+      console.log(data)
       setProjects(data.projects || []) // Assurez-vous que la réponse contient bien un tableau `projects`
     } catch (err: any) {
       setError(err.message || 'Une erreur est survenue.')
