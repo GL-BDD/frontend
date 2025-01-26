@@ -98,9 +98,13 @@ export default function Employee() {
   const { user } = useAuth()
 
   const [toggle, setToggle] = useState(false)
+  const [toggleC, setToggleC] = useState(false)
 
   const handleToggle = () => {
     setToggle(!toggle)
+  }
+  const handleToggleC = () => {
+    setToggleC(!toggleC)
   }
 
   async function fetchEmployeeByID() {
@@ -229,9 +233,20 @@ export default function Employee() {
           </div>
 
           <div className="employeepage__certification">
-            <h2>Cértification</h2>
-            {user?.role == 'artisan' ? <AddCertification /> : ''}
-            <ShowCertifications certifications={certifications} />
+            <div className="employeepage__certification__header">
+              <h2>Cértification</h2>
+              <p className="ptoggle" onClick={() => handleToggleC()}>
+                {toggleC ? '-' : '+'}
+              </p>
+            </div>
+            {toggleC ? (
+              <>
+                <ShowCertifications certifications={certifications} />
+                {user?.role == 'artisan' ? <AddCertification /> : ''}
+              </>
+            ) : (
+              ''
+            )}
           </div>
         </>
       )}

@@ -80,7 +80,8 @@ p {
 .employepage .employeepage__presentation {
 }
 
-.employepage .employeepage__realisation .employeepage__realisation_header {
+.employepage .employeepage__realisation .employeepage__realisation_header,
+.employepage .employeepage__certification .employeepage__certification__header {
   display: flex;
   align-items: center;
   justify-content: space-between;

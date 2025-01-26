@@ -117,7 +117,7 @@ const AddCertification: React.FC<AddCertificationProps> = ({ onSuccess }) => {
 
   return (
     <form onSubmit={handleSubmit} className="add-certification-form">
-      <h1>Ajouter une Certification</h1>
+      <h3>Ajouter une Certification</h3>
       {error && <p className="error">{error}</p>}
       {success && <p className="success">{success}</p>}
       <div>
