@@ -1,7 +1,32 @@
+/**
+ * The `About` component renders information about the DZ-estate platform,
+ * explaining why it is a reliable solution and how it works.
+ *
+ * The component is divided into two main sections:
+ *
+ * 1. **Pourquoi DZ-estate est la solution fiable ?**
+ *    - Provides reasons why DZ-estate is a reliable solution.
+ *    - Contains three informational boxes:
+ *      - "Les artisans dont vous avez besoin": Describes how users can find artisans with the required skills.
+ *      - "De véritables avis clients": Highlights the importance of genuine customer reviews.
+ *      - "Vous avez le contrôle": Emphasizes user control over selecting artisans.
+ *
+ * 2. **Comment Ca Marche ?**
+ *    - Explains how the platform works.
+ *    - Contains three informational boxes with icons:
+ *      - "Je Choisi Mon Professionnel": Users select professionals.
+ *      - "J'explique Mon Projet": Users explain their project to the professional.
+ *      - "Je Profite de Ma Maison": Users enjoy the results of their completed projects.
+ *
+ * The component uses Material-UI icons for visual representation.
+ *
+ * @returns {JSX.Element} The rendered About component.
+ */
 import './About.css'
 import HomeIcon from '@mui/icons-material/Home'
 import QuestionAnswerIcon from '@mui/icons-material/QuestionAnswer'
 import EngineeringIcon from '@mui/icons-material/Engineering'
+
 export default function About() {
   return (
     <div className="container">

@@ -1,9 +1,52 @@
+/**
+ * SingUp component handles the user registration process.
+ *
+ * @component
+ * @example
+ * return (
+ *   <SingUp />
+ * )
+ *
+ * @returns {JSX.Element} The rendered component.
+ *
+ * @description
+ * This component renders a registration form that allows users to create an account.
+ * It includes fields for username, email, phone number, password, and confirm password.
+ * Users can also choose to register as an artisan by checking a checkbox.
+ *
+ * The component manages form state using the `useState` hook and handles form submission
+ * with the `handleSubmit` function. It performs basic validation before sending the data
+ * to the server using Axios for the registration process.
+ *
+ * @function handleChange
+ * @description Handles changes to form input fields and updates the form state.
+ * @param {React.ChangeEvent<HTMLInputElement>} e - The change event from the input field.
+ *
+ * @function handleSubmit
+ * @description Handles form submission, performs validation, and sends registration data to the server.
+ * @param {React.FormEvent<HTMLFormElement>} e - The form submission event.
+ *
+ * @function validateForm
+ * @description Validates the form data before submission.
+ * @returns {boolean} True if the form data is valid, otherwise false.
+ *
+ * @constant {string} BASE_URL - The base URL for the API, retrieved from environment variables.
+ * @constant {string} API_URL - The full URL for the authentication API.
+ *
+ * @typedef {Object} RegisterFormData
+ * @property {string} username - The username of the user.
+ * @property {string} email - The email address of the user.
+ * @property {string} password - The password for the account.
+ * @property {string} confirmPassword - The confirmation of the password.
+ * @property {string} phoneNumber - The phone number of the user.
+ * @property {string} role - The role of the user, either 'client' or 'artisan'.
+ */
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import './signinup.css'
 
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL
 
 interface RegisterFormData {
   username: string
@@ -14,8 +57,7 @@ interface RegisterFormData {
   role: string
 }
 
-const API_URL =
-  `${BASE_URL}/api/auth`
+const API_URL = `${BASE_URL}/api/auth`
 
 export default function SingUp() {
   const navigate = useNavigate()
@@ -148,7 +190,9 @@ export default function SingUp() {
         <div className="signup--information">
           <h2>Create Account</h2>
           {error && (
-            <p className="text-red-600 bg-red-50 p-3 rounded-lg mb-4">{error}</p>
+            <p className="text-red-600 bg-red-50 p-3 rounded-lg mb-4">
+              {error}
+            </p>
           )}
           <form onSubmit={handleSubmit}>
             <label htmlFor="username">Username</label>

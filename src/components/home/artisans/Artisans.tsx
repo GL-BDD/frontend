@@ -1,3 +1,15 @@
+/**
+ * The `Artisans` component renders a list of artisan professions with links to their respective pages.
+ * Each profession is displayed as a card with an image, title, and description.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Artisans />
+ * )
+ *
+ * @returns {JSX.Element} A React component that displays a list of artisan professions.
+ */
 import { Link } from 'react-router-dom'
 import './Artisans.css'
 
