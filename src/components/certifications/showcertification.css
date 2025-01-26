@@ -1,0 +1,36 @@
+.employeepage__certification .showcertifications {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  padding-bottom: 30px;
+  gap: 30px;
+}
+
+.employeepage__certification .showcertifications .certification {
+  border-radius: 20px;
+  padding: 20px 10px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+}
+
+.employeepage__certification .showcertifications .certification p {
+  font-weight: 500;
+}
+
+.employeepage__certification
+  .showcertifications
+  .certification
+  .certification_image {
+  border-radius: 20px;
+  overflow: hidden;
+  img {
+    width: 100%;
+  }
+}
+
+div.deletebutton button {
+  border-radius: 30px;
+}

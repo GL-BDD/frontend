@@ -98,9 +98,13 @@ export default function Employee() {
   const { user } = useAuth()
 
   const [toggle, setToggle] = useState(false)
+  const [toggleC, setToggleC] = useState(false)
 
   const handleToggle = () => {
     setToggle(!toggle)
+  }
+  const handleToggleC = () => {
+    setToggleC(!toggleC)
   }
 
   async function fetchEmployeeByID() {
@@ -114,21 +118,23 @@ export default function Employee() {
       setLoading(false)
     }
   }
-  const fetchCertifications = async()=>{
+  const fetchCertifications = async () => {
     try {
       setLoading(true)
-      const res = await fetch(`${BASE_URL}/api/artisans/certifications/${idUtilisateur}`)
+      const res = await fetch(
+        `${BASE_URL}/api/artisans/certifications/${idUtilisateur}`,
+      )
       const data = await res.json()
       setCertifications(data.certifications)
-      console.log(data.certifications)      
+      console.log(data.certifications)
       setLoading(false)
     } catch {
       setLoading(false)
     }
   }
   useEffect(() => {
-    fetchEmployeeByID();
-    fetchCertifications();
+    fetchEmployeeByID()
+    fetchCertifications()
   }, [idUtilisateur])
 
   const handleButtonClick = () => {
@@ -149,9 +155,7 @@ export default function Employee() {
             <div className="employee--details">
               <div>
                 <h3>{employee.username}</h3>
-                <p>
-                  specialization :{employee.specialization}
-                </p>
+                <p>specialization :{employee.specialization}</p>
                 <p>disponible</p>
               </div>
             </div>
@@ -229,9 +233,20 @@ export default function Employee() {
           </div>
 
           <div className="employeepage__certification">
-            <h2>Cértification</h2>
-            {user?.role == 'artisan' ? <AddCertification /> : ''}
-          <ShowCertifications certifications={certifications}/>
+            <div className="employeepage__certification__header">
+              <h2>Cértification</h2>
+              <p className="ptoggle" onClick={() => handleToggleC()}>
+                {toggleC ? '-' : '+'}
+              </p>
+            </div>
+            {toggleC ? (
+              <>
+                <ShowCertifications certifications={certifications} />
+                {user?.role == 'artisan' ? <AddCertification /> : ''}
+              </>
+            ) : (
+              ''
+            )}
           </div>
         </>
       )}
