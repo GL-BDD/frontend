@@ -27,7 +27,7 @@ interface AddCertificationProps {
   onSuccess?: () => void // Callback facultatif pour signaler le succès
 }
 
-const AddCertification: React.FC<AddCertificationProps> = ({ onSuccess }) => {
+const AddCertification: React.FC<AddCertificationProps> = ({ onSuccess,setCertifications }:any) => {
   const [certificateName, setCertificateName] = useState('')
   const [certificateDate, setCertificateDate] = useState('')
   const [attachments, setAttachments] = useState<File[]>([]) // Pour gérer plusieurs fichiers
@@ -87,7 +87,6 @@ const AddCertification: React.FC<AddCertificationProps> = ({ onSuccess }) => {
     formData.append('certification_name', certificateName)
     formData.append('issue_date', certificateDate)
     attachments.forEach((file) => formData.append('attachment', file)) // Ajouter chaque fichier
-    console.log(formData)
     try {
       const response = await fetch(`${BASE_URL}/api/artisans/certifications`, {
         method: 'POST',
@@ -96,15 +95,17 @@ const AddCertification: React.FC<AddCertificationProps> = ({ onSuccess }) => {
         },
         body: formData,
       })
-
+      const res = await response.json()
+      const newCert = res.certification[0]
       if (!response.ok) {
         const errorMessage = await response.text()
         throw new Error(errorMessage)
       }
 
+      setCertifications((prevCertifications: any) => [...prevCertifications, newCert])
       // Réinitialiser les champs après succès
       setCertificateName('')
-      setCertificateDate('')
+      setCertificateDate('') 
       setAttachments([])
       setSuccess('Certification ajoutée avec succès !')
       onSuccess?.()

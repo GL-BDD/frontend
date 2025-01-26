@@ -241,8 +241,8 @@ export default function Employee() {
             </div>
             {toggleC ? (
               <>
-                <ShowCertifications certifications={certifications} />
-                {user?.role == 'artisan' ? <AddCertification /> : ''}
+                <ShowCertifications certifications={certifications} setCertifications={setCertifications} />
+                {user?.role == 'artisan' ? <AddCertification setCertifications={setCertifications} /> : ''}
               </>
             ) : (
               ''

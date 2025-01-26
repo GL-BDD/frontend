@@ -76,7 +76,7 @@ export default function NavBar() {
               <button
                 className="logout"
                 onClick={() => {
-                  navigate(`/profession/:profession/${user?.id}`)
+                  if(user.role === 'artisan') navigate(`/profession/:profession/${user?.id}`)
                 }}
               >
                 {user?.username}

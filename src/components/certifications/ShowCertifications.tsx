@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import './showcertification.css'
-export default function ShowCertifications({ certifications }) {
-  const { token } = useAuth() // Récupérer le token pour l'authentification
+export default function ShowCertifications({ certifications,setCertifications }:any) {
+  const { token,user } = useAuth() // Récupérer le token pour l'authentification
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const BASE_URL = import.meta.env.VITE_API_URL
@@ -32,7 +32,9 @@ export default function ShowCertifications({ certifications }) {
         )
       }
 
-      alert('Certificat supprimé avec succès.')
+      setCertifications((prevCertifications) =>{
+        return prevCertifications.filter((certification) => certification.certification_id != certification_id)
+      })
     } catch (err: any) {
       setError(err.message || 'Une erreur est survenue.')
     } finally {
@@ -51,16 +53,19 @@ export default function ShowCertifications({ certifications }) {
             <div className="certification_image">
               <img src={certification?.attachment} alt="image certification" />
             </div>
-            <div className="deletebutton">
+            {user.role === 'artisan' &&
+
+              <div className="deletebutton">
               <button
                 style={{ backgroundColor: 'red', color: 'white' }}
                 onClick={() =>
                   handleDeleteCertification(certification?.certification_id)
                 }
-              >
+                >
                 Supprimer le Certificat
               </button>
             </div>
+              }
             <br />
           </div>
         ))}
