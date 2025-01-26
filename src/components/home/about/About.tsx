@@ -35,7 +35,7 @@ export default function About() {
           <div className="description-text">
             <h3>
               {' '}
-              <strong>Pourquoi</strong> DZ-estate est la solution fiable ?
+              <strong>Pourquoi</strong> DZ-artisan est la solution fiable ?
             </h3>
           </div>
         </div>
