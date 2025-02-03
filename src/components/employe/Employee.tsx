@@ -79,6 +79,7 @@ import AddCertification from './addcertification/AddCertification'
 import Realisation from './realisation/Realisation'
 import AddProjectForm from './addproject/AddProjectForm'
 import ShowCertifications from '../../components/certifications/ShowCertifications'
+import axios from 'axios'
 
 const BASE_URL = import.meta.env.VITE_API_URL
 
@@ -89,16 +90,26 @@ export default function Employee() {
     specialization?: string
     phonenumber?: string
     email?: string
+    description?: string
   }
 
   const [employee, setEmployee] = useState<Employee>({})
   const [certifications, setCertifications] = useState([])
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const { user } = useAuth()
+  const { user, token } = useAuth()
 
   const [toggle, setToggle] = useState(false)
   const [toggleC, setToggleC] = useState(false)
+
+  const [showUpdateForm, setShowUpdateForm] = useState(false)
+  const [updateFormData, setUpdateFormData] = useState({
+    username: '',
+    specialization: '',
+    email: '',
+    phone_number: '',
+    description: ''
+  })
 
   const handleToggle = () => {
     setToggle(!toggle)
@@ -142,8 +153,110 @@ export default function Employee() {
     navigate(`/project-proposal/${idUtilisateur}`)
   }
 
+  const handleUpdate = async (e: React.FormEvent) => {
+    e.preventDefault()
+    try {
+      const updatedData = {
+        username: updateFormData.username,
+        specialization: employee.specialization,
+        email: employee.email,
+        phone_number: updateFormData.phone_number,
+        description: updateFormData.description
+      }
+
+      const response = await axios.put(
+        `${BASE_URL}/api/artisans`,
+        updatedData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      )
+
+      if (response.status === 200) {
+        setShowUpdateForm(false)
+        fetchEmployeeByID()
+      }
+    } catch (error) {
+      console.error('Error updating employee:', error)
+    }
+  }
+
   return (
     <div className="container employepage">
+      {console.log("User role:", user?.role)}
+      {user?.role === 'artisan' && (
+        <>
+          {showUpdateForm && (
+            <div className="yahya_modal-overlay">
+              <div className="yahya_modal-container">
+                <div className="yahya_modal-header">
+                  <h1 className="yahya_modal-title">Update Profile</h1>
+                  <button 
+                    onClick={() => setShowUpdateForm(false)}
+                    className="yahya_close-button"
+                  >
+                    ×
+                  </button>
+                </div>
+                
+                <form onSubmit={handleUpdate}>
+                  <div className="yahya_form-group">
+                    <label className="yahya_form-label">Username</label>
+                    <input
+                      type="text"
+                      placeholder="Enter username"
+                      value={updateFormData.username}
+                      onChange={(e) => setUpdateFormData({...updateFormData, username: e.target.value})}
+                      className="yahya_form-input"
+                    />
+                  </div>
+
+                  <div className="yahya_form-group">
+                    <label className="yahya_form-label">Phone Number</label>
+                    <input
+                      type="text"
+                      placeholder="Enter phone number"
+                      value={updateFormData.phone_number}
+                      onChange={(e) => setUpdateFormData({...updateFormData, phone_number: e.target.value})}
+                      className="yahya_form-input"
+                    />
+                  </div>
+
+                  <div className="yahya_form-group">
+                    <label className="yahya_form-label">Description</label>
+                    <textarea
+                      placeholder="Enter description"
+                      value={updateFormData.description}
+                      onChange={(e) => setUpdateFormData({...updateFormData, description: e.target.value})}
+                      className="yahya_form-input yahya_form-textarea"
+                    />
+                  </div>
+
+                  <div className="yahya_form-actions">
+                    <button
+                      type="button"
+                      onClick={() => setShowUpdateForm(false)}
+                      className="yahya_button yahya_button-cancel"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      type="submit"
+                      className="yahya_button yahya_button-submit"
+                    >
+                      Save Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+
       {loading ? (
         <h2>Data is Loading ...</h2>
       ) : (
@@ -182,6 +295,23 @@ export default function Employee() {
                 Demander un Devis
               </button>
               <p className="chat">Contacter</p>
+              {user && user.role == 'artisan' && user.id == idUtilisateur && (
+                <button
+                  onClick={() => {
+                    setUpdateFormData({
+                      username: employee.username || '',
+                      specialization: employee.specialization || '',
+                      email: employee.email || '',
+                      phone_number: employee.phonenumber || '',
+                      description: employee.description || ''
+                    })
+                    setShowUpdateForm(true)
+                  }}
+                  className="chat"
+                >
+                  Update Profile
+                </button>
+              )}
             </div>
           </div>
 
@@ -216,11 +346,11 @@ export default function Employee() {
           <div className="employeepage__certification">
             <div className="employeepage__certification__header">
               <h2>Cértification</h2>
-              <p className="ptoggle" onClick={() => handleToggleC()}>
-              {user && <p className="ptoggle" onClick={() => handleToggle()}>
-                {toggleC ? '-' : '+'}
-              </p>}
-              </p>
+              {user && (
+                <p className="ptoggle" onClick={() => handleToggleC()}>
+                  {toggleC ? '-' : '+'}
+                </p>
+              )}
             </div>
             {toggleC ? (
               <>
