@@ -3,7 +3,9 @@ import { useAuth } from '../../../context/AuthContext'
 import { useEffect, useState } from 'react'
 import './realisation.css'
 
-type Userid = {}
+type Userid = {
+  role?: string;
+}
 type RealisationProps = {
   user: Userid
 }
@@ -11,10 +13,13 @@ type RealisationProps = {
 const Realisation: React.FC<RealisationProps> = ({ user }) => {
   const BASE_URL = import.meta.env.VITE_API_URL
   const { idUtilisateur } = useParams<{ idUtilisateur: string }>()
-  const { token } = useAuth()
+  const { token, user: authUser } = useAuth()
   const [projects, setProjects] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Debug the auth user role
+  console.log('Auth User role:', authUser?.role)
 
   // Fonction pour récupérer les projets
   async function fetchEmployeeProjects() {
@@ -123,16 +128,19 @@ const Realisation: React.FC<RealisationProps> = ({ user }) => {
                 </div>
               </>
             )}
-            <div>
-              <button
-                onClick={() =>
-                  handleDeleteProject(project.portfolio_project_id)
-                }
-                style={{ backgroundColor: 'red', color: 'white' }}
-              >
-                Supprimer le projet
-              </button>
-            </div>
+            {/* Use authUser instead of user prop */}
+            {authUser?.role?.toLowerCase() === 'artisan' && (
+              <div>
+                <button
+                  onClick={() =>
+                    handleDeleteProject(project.portfolio_project_id)
+                  }
+                  style={{ backgroundColor: 'red', color: 'white' }}
+                >
+                  Supprimer le projet
+                </button>
+              </div>
+            )}
           </div>
         ))}
       </div>

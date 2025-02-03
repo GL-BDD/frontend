@@ -55,14 +55,19 @@ const BASE_URL = import.meta.env.VITE_API_URL
 
 import './addprojectartisan.css'
 const specializations = ['électricien', 'plombier', 'peintre']
-const unite = ['Projet Complet', 'Par mètre', 'Par jour', 'Par heure']
+const unite = ['projet', 'metre', 'jour', 'heure']
 export default function AddProjectArtisan() {
   const { artisanId } = useParams()
   const { token, isAuthenticated } = useAuth()
 
   const [formData, setFormData] = useState({
     description: '',
-    images: [] as File[],
+    specialization: specializations[0], // Default to the first specialization
+    start_date: '',
+    end_date: '',
+    image: '',
+    prix : 0,
+    unit: unite[0], // Default to the first unit
   })
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -84,7 +89,7 @@ export default function AddProjectArtisan() {
     if (e.target.files) {
       setFormData((prev) => ({
         ...prev,
-        images: Array.from(e.target.files),
+        image: e.target.files,
       }))
     }
   }
@@ -93,13 +98,17 @@ export default function AddProjectArtisan() {
     e.preventDefault()
     setError('')
     setIsLoading(true)
+    
+    
     try {
       const formDataToSend = new FormData()
       formDataToSend.append('description', formData.description)
       formDataToSend.append('artisan_id', artisanId)
-      formData.images.forEach((image) => {
-        formDataToSend.append('images', image)
-      })
+      formDataToSend.append('start_date', formData.datedebut)
+      formDataToSend.append('end_date', formData.datefin)
+      formDataToSend.append('attachment', formData.image[0])
+      formDataToSend.append('price', formData.prix)
+      formDataToSend.append('unit', formData.unit)
       const response = await axios.post(
         `${BASE_URL}/api/projects`,
         formDataToSend,
@@ -125,16 +134,16 @@ export default function AddProjectArtisan() {
   }
 
   return (
-    <div className="container">
-      <div className="addprojectartisan-page">
-        <h2>Demander Un devis</h2>
+    <div className="container ">
+      <div className="addprojectall-page">
+        <h2>Ajouter Votre Projet</h2>
         <h4>
-          Pour demander un devis veuillez envoyer des informations et des images
-          sur votre projet
+          Décrivez vos besoins, partagez des photos et laissez nos experts
+          s'occuper du reste.
         </h4>
         <form onSubmit={handleSubmit}>
           <div>
-            <label htmlFor="description">Description</label>
+            <label htmlFor="description">Entrer votre Description </label>
             <textarea
               id="description"
               name="description"
@@ -145,7 +154,7 @@ export default function AddProjectArtisan() {
           </div>
 
           <div>
-            <label htmlFor="images">Images</label>
+            <label htmlFor="images">Ajouter des Images</label>
             <input
               type="file"
               id="images"
@@ -155,16 +164,16 @@ export default function AddProjectArtisan() {
             />
           </div>
           <div className="datedebut">
-            <label htmlFor="datedebut">Date de Début</label>
-            <input type="date" id="datadebut" name="datedebut" />
+            <label htmlFor="">Date de Début</label>
+            <input type="date" id="datadebut" name="datedebut" onChange={handleChange} />
           </div>
           <div className="datefin">
-            <label htmlFor="datefin">Date de Fin</label>
-            <input type="date" id="datefin" name="datefin" />
+            <label htmlFor="">Date de Fin</label>
+            <input type="date" id="datefin" name="datefin" onChange={handleChange} />
           </div>
           <div>
             <label htmlFor="prix">Prix par unité</label>
-            <select id="prix" name="prix" required>
+            <select id="prix" name="unit" required onChange={handleChange}>
               {unite.map((unit) => (
                 <option key={unit} value={unit}>
                   {unit}
@@ -176,16 +185,17 @@ export default function AddProjectArtisan() {
               id="prix"
               name="prix"
               placeholder="choisir un prix"
+              onChange={handleChange}
             />
           </div>
+
           {error && <p style={{ color: 'red' }}>{error}</p>}
         </form>
         <div className="button">
           <button type="submit" disabled={isLoading}>
-            {isLoading ? 'Loading...' : 'Add Project'}
+            {isLoading ? 'Loading...' : 'Envoyer le projet'}
           </button>
         </div>
       </div>
     </div>
-  )
-}
+  )}

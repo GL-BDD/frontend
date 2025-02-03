@@ -45,7 +45,7 @@ import './addprojectall.css'
 const BASE_URL = import.meta.env.VITE_API_URL
 
 const specializations = ['électricien', 'plombier', 'peintre']
-const unite = ['Projet complet', 'Par mètre', 'Par jour', 'Par heure']
+const unite = ['projet', 'metre', 'jour', 'heure']
 
 const AddProject: React.FC = () => {
   const { token, isAuthenticated } = useAuth()
@@ -53,7 +53,11 @@ const AddProject: React.FC = () => {
   const [formData, setFormData] = useState({
     description: '',
     specialization: specializations[0], // Default to the first specialization
-    images: [] as File[],
+    start_date: '',
+    end_date: '',
+    image: '',
+    prix : 0,
+    unit: unite[0], // Default to the first unit
   })
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -75,7 +79,7 @@ const AddProject: React.FC = () => {
     if (e.target.files) {
       setFormData((prev) => ({
         ...prev,
-        images: Array.from(e.target.files),
+        image: e.target.files,
       }))
     }
   }
@@ -84,13 +88,17 @@ const AddProject: React.FC = () => {
     e.preventDefault()
     setError('')
     setIsLoading(true)
+    
+    
     try {
       const formDataToSend = new FormData()
       formDataToSend.append('description', formData.description)
       formDataToSend.append('specialization', formData.specialization)
-      formData.images.forEach((image) => {
-        formDataToSend.append('images', image)
-      })
+      formDataToSend.append('start_date', formData.datedebut)
+      formDataToSend.append('end_date', formData.datefin)
+      formDataToSend.append('attachment', formData.image[0])
+      formDataToSend.append('price', formData.prix)
+      formDataToSend.append('unit', formData.unit)
       const response = await axios.post(
         `${BASE_URL}/api/projects/all`,
         formDataToSend,
@@ -163,15 +171,15 @@ const AddProject: React.FC = () => {
           </div>
           <div className="datedebut">
             <label htmlFor="">Date de Début</label>
-            <input type="date" id="datadebut" name="datedebut" />
+            <input type="date" id="datadebut" name="datedebut" onChange={handleChange} />
           </div>
           <div className="datefin">
             <label htmlFor="">Date de Fin</label>
-            <input type="date" id="datefin" name="datefin" />
+            <input type="date" id="datefin" name="datefin" onChange={handleChange} />
           </div>
           <div>
             <label htmlFor="prix">Prix par unité</label>
-            <select id="prix" name="prix" required>
+            <select id="prix" name="unit" required onChange={handleChange}>
               {unite.map((unit) => (
                 <option key={unit} value={unit}>
                   {unit}
@@ -183,6 +191,7 @@ const AddProject: React.FC = () => {
               id="prix"
               name="prix"
               placeholder="choisir un prix"
+              onChange={handleChange}
             />
           </div>
 
