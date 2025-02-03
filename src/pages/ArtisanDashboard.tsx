@@ -314,12 +314,16 @@ const QuoteCard = styled(Paper)(({ theme }) => ({
 const ArtisanDashboard: React.FC = () => {
   const [selectedStatus, setSelectedStatus] = React.useState<string | null>(null);
   const [activeTab, setActiveTab] = React.useState(0);
-  const [directQuotes, setDirectQuotes] = useState<Quote[]>(mockQuotes);
   const [specializationQuotes, setSpecializationQuotes] = useState<Quote[]>(pendingQuotes);
+  const [projects, setProjects] = useState<ProjectType[]>([]);
+  const [projectsSpecialization, setProjectsSpecialization] = useState<ProjectType[]>([]);
   const [loading, setLoading] = useState(false);
+  const [quotes,fetchQuotes] = useState()
   const { user, token } = useAuth();
 
-  // Group projects by status
+  console.log(user)
+
+  // Group projects by tus
   const projectsByStatus = React.useMemo(() => {
     return mockProjects.reduce((acc, project) => {
       if (!acc[project.status]) {
@@ -411,6 +415,65 @@ const ArtisanDashboard: React.FC = () => {
     }
   };
 
+
+  //fetch projects
+  useEffect(() => {
+    const fetchProjects = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`${BASE_URL}/api/artisans/project`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error("Erreur lors de la récupération des projets");
+        }
+  
+        const data: { message: string; project: ProjectType[] } = await response.json();
+        setProjects(data.project);
+      } catch (error) {
+        console.error("Erreur :", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchProjects();
+  }, [token]);
+
+  //fetch projects by specialization
+useEffect(() => {
+    const fetchProjects = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`${BASE_URL}/api/artisans/project/specialization`, {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+  
+        if (!response.ok) {
+          throw new Error("Erreur lors de la récupération des projets");
+        }
+  
+        const data: { message: string; project: ProjectType[] } = await response.json();
+        setProjectsSpecialization(data.project);
+      } catch (error) {
+        console.error("Erreur :", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchProjects();
+  }, [token]);
+   console.log('projectsSpecialization :',projectsSpecialization)
   return (
     <Box sx={{ 
       minHeight: '100vh', 
@@ -637,219 +700,24 @@ const ArtisanDashboard: React.FC = () => {
 
         {activeTab === 1 && (
           <>
-            <Typography 
-              variant="h4" 
-              component="h1" 
-              sx={{ 
-                mb: 4,
-                fontWeight: 'bold',
-                color: '#111827'
-              }}
-            >
-              Devis Directs
-            </Typography>
-            
-            {loading ? (
-              <Box display="flex" justifyContent="center" my={4}>
-                <CircularProgress />
-              </Box>
-            ) : directQuotes.length > 0 ? (
-              <Grid container spacing={3}>
-                {directQuotes
-                  .filter(quote => quote.specialization === user?.specialization)
-                  .map((quote) => (
-                  <Grid item xs={12} key={quote.id}>
-                    <QuoteCard>
-                      <Box sx={{ 
-                        mb: 3,
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'flex-start',
-                        borderBottom: '1px solid #E5E7EB',
-                        pb: 2
-                      }}>
-                        <Box>
-                          <Typography variant="h6" sx={{ 
-                            fontWeight: 600,
-                            color: '#111827',
-                            mb: 1
-                          }}>
-                            Client: {quote.clientName}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            Reçu le: {new Date(quote.createdAt).toLocaleDateString('fr-FR', {
-                              day: 'numeric',
-                              month: 'long',
-                              year: 'numeric',
-                              hour: '2-digit',
-                              minute: '2-digit'
-                            })}
-                          </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 1 }}>
-                          <Chip
-                            label={quote.status === 'pending' ? 'En attente' : quote.status === 'accepted' ? 'Accepté' : 'Refusé'}
-                            color={quote.status === 'pending' ? 'warning' : quote.status === 'accepted' ? 'success' : 'error'}
-                            sx={{
-                              fontWeight: 600,
-                              px: 2,
-                              '& .MuiChip-label': {
-                                px: 1
-                              }
-                            }}
-                          />
-                          <Typography variant="h6" sx={{ 
-                            color: '#059669',
-                            fontWeight: 600
-                          }}>
-                            {quote.price.toLocaleString('fr-FR')} €
-                          </Typography>
-                        </Box>
-                      </Box>
-
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} md={8}>
-                          <Typography sx={{ 
-                            mb: 3,
-                            color: '#4B5563',
-                            fontSize: '1.1rem',
-                            lineHeight: 1.6
-                          }}>
-                            {quote.description}
-                          </Typography>
-                          
-                          <Box sx={{ 
-                            display: 'flex',
-                            gap: 4,
-                            mb: 3,
-                            color: '#6B7280'
-                          }}>
-                            <Box>
-                              <Typography variant="subtitle2" color="text.secondary">
-                                Date de début
-                              </Typography>
-                              <Typography>
-                                {new Date(quote.startDate).toLocaleDateString('fr-FR')}
-                              </Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant="subtitle2" color="text.secondary">
-                                Date de fin
-                              </Typography>
-                              <Typography>
-                                {new Date(quote.endDate).toLocaleDateString('fr-FR')}
-                              </Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant="subtitle2" color="text.secondary">
-                                Spécialisation
-                              </Typography>
-                              <Typography sx={{ textTransform: 'capitalize' }}>
-                                {quote.specialization}
-                              </Typography>
-                            </Box>
-                          </Box>
-                          <Box sx={{ 
-                            display: 'flex',
-                            justifyContent: 'flex-end',
-                            gap: 2,
-                            mt: 3
-                          }}>
-                            {quote.status === 'pending' && (
-                              <>
-                                <Button
-                                  variant="contained"
-                                  size="large"
-                                  onClick={() => handleAcceptDevis(quote.id)}
-                                  sx={{
-                                    backgroundColor: '#2563EB',
-                                    color: 'white',
-                                    px: 4,
-                                    py: 1.5,
-                                    fontSize: '1rem',
-                                    fontWeight: 600,
-                                    borderRadius: '0.5rem',
-                                    textTransform: 'none',
-                                    '&:hover': {
-                                      backgroundColor: '#1D4ED8',
-                                      transform: 'translateY(-2px)',
-                                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
-                                    },
-                                    transition: 'all 0.2s ease-in-out',
-                                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
-                                  }}
-                                  startIcon={
-                                    <CheckCircleIcon sx={{ fontSize: 24 }} />
-                                  }
-                                >
-                                  Accepter le devis
-                                </Button>
-                                <Button
-                                  variant="outlined"
-                                  size="large"
-                                  onClick={() => handleRejectDevis(quote.id)}
-                                  sx={{
-                                    color: '#DC2626',
-                                    borderColor: '#DC2626',
-                                    px: 4,
-                                    py: 1.5,
-                                    fontSize: '1rem',
-                                    fontWeight: 600,
-                                    borderRadius: '0.5rem',
-                                    textTransform: 'none',
-                                    '&:hover': {
-                                      backgroundColor: 'rgba(220, 38, 38, 0.04)',
-                                      borderColor: '#DC2626',
-                                      transform: 'translateY(-2px)',
-                                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
-                                    },
-                                    transition: 'all 0.2s ease-in-out'
-                                  }}
-                                  startIcon={
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                    </svg>
-                                  }
-                                >
-                                  Refuser le devis
-                                </Button>
-                              </>
-                            )}
-                          </Box>
-                        </Grid>
-                        
-                        <Grid item xs={12} md={4}>
-                          <Box
-                            component="img"
-                            src={quote.image}
-                            alt="Project visualization"
-                            sx={{
-                              width: '100%',
-                              height: '250px',
-                              objectFit: 'cover',
-                              borderRadius: '0.75rem',
-                              border: '1px solid #E5E7EB',
-                              boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                              mb: 2
-                            }}
-                          />
-                        </Grid>
-                      </Grid>
-                    </QuoteCard>
-                  </Grid>
-                ))}
-              </Grid>
-            ) : (
-              <Typography 
-                variant="h6" 
-                textAlign="center" 
-                color="text.secondary"
-                sx={{ py: 8 }}
-              >
-                Aucun devis direct pour le moment
-              </Typography>
-            )}
+          <Typography 
+          variant="h4" 
+          component="h1" 
+          sx={{ 
+            mb: 4,
+            fontWeight: 'bold',
+            color: '#111827'
+          }}
+        >
+          Devis Directs
+        </Typography>
+          {
+            projects?.map((project, index) => (
+              <DevisDirect key={index} loading={loading} project={project} />
+            ))
+          }
           </>
+        
         )}
 
         {activeTab === 2 && (
@@ -870,200 +738,11 @@ const ArtisanDashboard: React.FC = () => {
               <Box display="flex" justifyContent="center" my={4}>
                 <CircularProgress />
               </Box>
-            ) : specializationQuotes.length > 0 ? (
-              <Grid container spacing={3}>
-                {specializationQuotes.map((quote) => (
-                  <Grid item xs={12} key={quote.id}>
-                    <QuoteCard>
-                      <Box sx={{ 
-                        mb: 3,
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'flex-start',
-                        borderBottom: '1px solid #E5E7EB',
-                        pb: 2
-                      }}>
-                        <Box>
-                          <Typography variant="h6" sx={{ 
-                            fontWeight: 600,
-                            color: '#111827',
-                            mb: 1
-                          }}>
-                            Client: {quote.clientName}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            Reçu le: {new Date(quote.createdAt).toLocaleDateString('fr-FR', {
-                              day: 'numeric',
-                              month: 'long',
-                              year: 'numeric',
-                              hour: '2-digit',
-                              minute: '2-digit'
-                            })}
-                          </Typography>
-                        </Box>
-                        <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 1 }}>
-                          <Chip
-                            label={quote.status === 'pending' ? 'En attente' : quote.status === 'accepted' ? 'Accepté' : 'Refusé'}
-                            color={quote.status === 'pending' ? 'warning' : quote.status === 'accepted' ? 'success' : 'error'}
-                            sx={{
-                              fontWeight: 600,
-                              px: 2,
-                              '& .MuiChip-label': {
-                                px: 1
-                              }
-                            }}
-                          />
-                          <Typography variant="h6" sx={{ 
-                            color: '#059669',
-                            fontWeight: 600
-                          }}>
-                            {quote.price.toLocaleString('fr-FR')} €
-                          </Typography>
-                        </Box>
-                      </Box>
-
-                      <Grid container spacing={3}>
-                        <Grid item xs={12} md={quote.image ? 8 : 12}>
-                          <Typography sx={{ 
-                            mb: 3,
-                            color: '#4B5563',
-                            fontSize: '1.1rem',
-                            lineHeight: 1.6
-                          }}>
-                            {quote.description}
-                          </Typography>
-                          
-                          <Box sx={{ 
-                            display: 'flex',
-                            gap: 4,
-                            mb: 3,
-                            color: '#6B7280'
-                          }}>
-                            <Box>
-                              <Typography variant="subtitle2" color="text.secondary">
-                                Date de début
-                              </Typography>
-                              <Typography>
-                                {new Date(quote.startDate).toLocaleDateString('fr-FR')}
-                              </Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant="subtitle2" color="text.secondary">
-                                Date de fin
-                              </Typography>
-                              <Typography>
-                                {new Date(quote.endDate).toLocaleDateString('fr-FR')}
-                              </Typography>
-                            </Box>
-                            <Box>
-                              <Typography variant="subtitle2" color="text.secondary">
-                                Spécialisation
-                              </Typography>
-                              <Typography sx={{ textTransform: 'capitalize' }}>
-                                {quote.specialization}
-                              </Typography>
-                            </Box>
-                          </Box>
-                          <Box sx={{ 
-                            display: 'flex',
-                            justifyContent: 'flex-end',
-                            gap: 2,
-                            mt: 3
-                          }}>
-                            {quote.status === 'pending' && (
-                              <>
-                                <Button
-                                  variant="contained"
-                                  size="large"
-                                  onClick={() => handleAcceptDevis(quote.id)}
-                                  sx={{
-                                    backgroundColor: '#2563EB',
-                                    color: 'white',
-                                    px: 4,
-                                    py: 1.5,
-                                    fontSize: '1rem',
-                                    fontWeight: 600,
-                                    borderRadius: '0.5rem',
-                                    textTransform: 'none',
-                                    '&:hover': {
-                                      backgroundColor: '#1D4ED8',
-                                      transform: 'translateY(-2px)',
-                                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
-                                    },
-                                    transition: 'all 0.2s ease-in-out',
-                                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
-                                  }}
-                                  startIcon={
-                                    <CheckCircleIcon sx={{ fontSize: 24 }} />
-                                  }
-                                >
-                                  Accepter le devis
-                                </Button>
-                                <Button
-                                  variant="outlined"
-                                  size="large"
-                                  onClick={() => handleRejectDevis(quote.id)}
-                                  sx={{
-                                    color: '#DC2626',
-                                    borderColor: '#DC2626',
-                                    px: 4,
-                                    py: 1.5,
-                                    fontSize: '1rem',
-                                    fontWeight: 600,
-                                    borderRadius: '0.5rem',
-                                    textTransform: 'none',
-                                    '&:hover': {
-                                      backgroundColor: 'rgba(220, 38, 38, 0.04)',
-                                      borderColor: '#DC2626',
-                                      transform: 'translateY(-2px)',
-                                      boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
-                                    },
-                                    transition: 'all 0.2s ease-in-out'
-                                  }}
-                                  startIcon={
-                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                      <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                                    </svg>
-                                  }
-                                >
-                                  Refuser le devis
-                                </Button>
-                              </>
-                            )}
-                          </Box>
-                        </Grid>
-                        
-                        {quote.image && (
-                          <Grid item xs={12} md={4}>
-                            <Box
-                              component="img"
-                              src={quote.image}
-                              alt="Project attachment"
-                              sx={{
-                                width: '100%',
-                                height: '200px',
-                                objectFit: 'cover',
-                                borderRadius: 2,
-                                border: '1px solid #E5E7EB'
-                              }}
-                            />
-                          </Grid>
-                        )}
-                      </Grid>
-                    </QuoteCard>
-                  </Grid>
-                ))}
-              </Grid>
-            ) : (
-              <Typography 
-                variant="h6" 
-                textAlign="center" 
-                color="text.secondary"
-                sx={{ py: 8 }}
-              >
-                Aucun devis par spécialité pour le moment
-              </Typography>
-            )}
+            ) : 
+              projectsSpecialization?.map((project, index) => (
+                <DevisDirect key={index} loading={loading} project={project} activeTab={activeTab}  user={user}/>
+              ))
+            }
           </>
         )}
       </Container>
@@ -1072,3 +751,218 @@ const ArtisanDashboard: React.FC = () => {
 };
 
 export default ArtisanDashboard;
+
+
+type ProjectType = { 
+  description: string;
+  client_username: string;
+  end_date: string;
+  start_date: string;
+  price: string;
+  unit: string;
+  status : string;
+  created_at : string;
+  attachment : string;
+};
+
+type UserType = {
+  email: string;
+  exp: number;
+  iat: number;
+  id: number;
+  role: string;
+  specialization: string;
+  username: string;
+};
+
+
+type DevisDirectProps = {
+  loading: boolean;
+  project: ProjectType; 
+  activeTab :number;
+  user : UserType;
+};
+
+const DevisDirect: React.FC<DevisDirectProps>=({loading,project,activeTab,user})=>{
+  const status = "pending";
+  return <>
+  {loading ? (
+    <Box display="flex" justifyContent="center" my={4}>
+      <CircularProgress />
+    </Box>
+  ) :
+        <Grid item xs={12}>
+          <QuoteCard>
+            <Box sx={{ 
+              mb: 3,
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              borderBottom: '1px solid #E5E7EB',
+              pb: 2
+            }}>
+              <Box>
+                <Typography variant="h6" sx={{ 
+                  fontWeight: 600,
+                  color: '#111827',
+                  mb: 1
+                }}>
+                  Client: {project.client_username}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  Reçu le: 03-02-2025
+                </Typography>
+              </Box>
+              <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 1 }}>
+                <Chip
+                  label={status === 'pending' ? 'En attente' : status === 'accepted' ? 'Accepté' : 'Refusé'}
+                  color={status === 'pending' ? 'warning' : status === 'accepted' ? 'success' : 'error'}
+                  sx={{
+                    fontWeight: 600,
+                    px: 2,
+                    '& .MuiChip-label': {
+                      px: 1
+                    }
+                  }}
+                />
+                <Typography variant="h6" sx={{ 
+                  color: '#059669',
+                  fontWeight: 600
+                }}>
+                  {project.price} DA Par {project.unit}
+                </Typography>
+              </Box>
+            </Box>
+
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={8}>
+                <Typography sx={{ 
+                  mb: 3,
+                  color: '#4B5563',
+                  fontSize: '1.1rem',
+                  lineHeight: 1.6
+                }}>
+                  {project.description}
+                </Typography>
+                
+                <Box sx={{ 
+                  display: 'flex',
+                  gap: 4,
+                  mb: 3,
+                  color: '#6B7280'
+                }}>
+                  <Box>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Date de début
+                    </Typography>
+                    <Typography>
+                      {new Date(project.start_date).toLocaleDateString('fr-FR')}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Date de fin
+                    </Typography>
+                    <Typography>
+                      {new Date(project.end_date).toLocaleDateString('fr-FR')}
+                    </Typography>
+                  </Box>
+                  {
+                    activeTab == 2 ? <Box>
+                    <Typography variant="subtitle2" color="text.secondary">
+                      Spécialisation : {user.specialization}
+                    </Typography>
+                    
+                  </Box> :<></>
+                  }
+                </Box>
+                <Box sx={{ 
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  gap: 2,
+                  mt: 3
+                }}>
+                  {
+                    <>
+                      <Button
+                        variant="contained"
+                        size="large"
+                        sx={{
+                          backgroundColor: '#2563EB',
+                          color: 'white',
+                          px: 4,
+                          py: 1.5,
+                          fontSize: '1rem',
+                          fontWeight: 600,
+                          borderRadius: '0.5rem',
+                          textTransform: 'none',
+                          '&:hover': {
+                            backgroundColor: '#1D4ED8',
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                          },
+                          transition: 'all 0.2s ease-in-out',
+                          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                        }}
+                        startIcon={
+                          <CheckCircleIcon sx={{ fontSize: 24 }} />
+                        }
+                      >
+                        Accepter le devis
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        size="large"
+                        sx={{
+                          color: '#DC2626',
+                          borderColor: '#DC2626',
+                          px: 4,
+                          py: 1.5,
+                          fontSize: '1rem',
+                          fontWeight: 600,
+                          borderRadius: '0.5rem',
+                          textTransform: 'none',
+                          '&:hover': {
+                            backgroundColor: 'rgba(220, 38, 38, 0.04)',
+                            borderColor: '#DC2626',
+                            transform: 'translateY(-2px)',
+                            boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+                          },
+                          transition: 'all 0.2s ease-in-out'
+                        }}
+                        startIcon={
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M6 18L18 6M6 6L18 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        }
+                      >
+                        Refuser le devis
+                      </Button>
+                    </>
+                  }
+                </Box>
+              </Grid>
+              
+              <Grid item xs={12} md={4}>
+                <Box
+                  src ={project.attachment}
+                  component="img"
+                  alt="Project visualization"
+                  sx={{
+                    width: '100%',
+                    height: '250px',
+                    objectFit: 'cover',
+                    borderRadius: '0.75rem',
+                    border: '1px solid #E5E7EB',
+                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                    mb: 2
+                  }}
+                />
+              </Grid> 
+            </Grid>
+          </QuoteCard>
+        </Grid>
+}
+</>
+}
+
